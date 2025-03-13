@@ -31,7 +31,7 @@ const HeroSection = () => {
                   alt="Avizit Roy — avizitRX"
                   height={80}
                   width={80}
-                  loading="eager"
+                  priority
                   className="inline-block outline-4 outline-white outline-solid outline-offset-0 shadow-2xl rounded-3xl"
                 />
                 <span>Avizit Roy!</span>
