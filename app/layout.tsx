@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${lato.className} antialiased`}>
+      <body className={`${lato.className} bg-white dark:bg-black antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
