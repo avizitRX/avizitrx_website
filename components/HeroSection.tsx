@@ -42,7 +42,7 @@ const HeroSection = () => {
           <BlurFade delay={0.25 * 2} inView>
             <h1 className="text-center md:text-start pt-5 text-3xl md:text-6xl font-semibold font-stretch-extra-expanded">
               <span className="text-neutral-500">I&apos;m a</span>{" "}
-              <span className="text-amber-600">
+              <span className="bg-gradient-to-r from-[#FF0080] via-[#7928CA] to-[#0070F3] text-transparent bg-clip-text">
                 AI/ML, Web & Mobile App Developer.
               </span>
             </h1>
