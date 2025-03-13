@@ -6,7 +6,7 @@ import { Cover } from "./ui/cover";
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="container pt-48 pb-48">
+    <section id="services" className="container pt-24 pb-24">
       {/* Heading */}
       <h1 className="text-center mb-10">
         <BlurFade delay={0.25} inView>
@@ -19,9 +19,9 @@ const ServicesSection = () => {
         <div className="mt-10 mb-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <div className="basis-1/4 h-full">
             <CardSpotlight className="h-full flex flex-col p-10">
-              <p className="text-xl font-bold relative z-20 mt-2 text-white">
+              <h2 className="text-xl font-bold relative z-20 mt-2 text-white">
                 Website Design & Development
-              </p>
+              </h2>
               <div className="text-neutral-200 mt-4 relative z-20 flex-grow">
                 <ul className="list-none mt-2">
                   <Step title="Responsive websites that look great on any device" />
@@ -39,9 +39,9 @@ const ServicesSection = () => {
 
           <div className="basis-1/4 h-full">
             <CardSpotlight className="h-full flex flex-col p-10">
-              <p className="text-xl font-bold relative z-20 mt-2 text-white">
+              <h2 className="text-xl font-bold relative z-20 mt-2 text-white">
                 Mobile App Development
-              </p>
+              </h2>
               <div className="text-neutral-200 mt-4 relative z-20 flex-grow">
                 <ul className="list-none mt-2">
                   <Step title="Cross-platform apps for iOS and Android using Flutter" />
@@ -54,9 +54,9 @@ const ServicesSection = () => {
 
           <div className="basis-1/4 h-full">
             <CardSpotlight className="h-full flex flex-col p-10">
-              <p className="text-xl font-bold relative z-20 mt-2 text-white">
+              <h2 className="text-xl font-bold relative z-20 mt-2 text-white">
                 AI & Machine Learning
-              </p>
+              </h2>
               <div className="text-neutral-200 mt-4 relative z-20 flex-grow">
                 <ul className="list-none mt-2">
                   <Step title="AI solutions for automation, analytics, and customer engagement" />
@@ -69,9 +69,9 @@ const ServicesSection = () => {
 
           <div className="basis-1/4 h-full">
             <CardSpotlight className="h-full flex flex-col p-10">
-              <p className="text-xl font-bold relative z-20 mt-2 text-white">
+              <h2 className="text-xl font-bold relative z-20 mt-2 text-white">
                 Digital Marketing & SEO Optimization
-              </p>
+              </h2>
               <div className="text-neutral-200 mt-4 relative z-20 flex-grow">
                 <ul className="list-none mt-2">
                   <Step title="Help your business get found in search results" />
