@@ -3,14 +3,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Menu, Sun, Moon } from "lucide-react";
-import { useTheme } from "next-themes";
+// import { Button } from "@/components/ui/button";
+// import { Menu, Sun, Moon } from "lucide-react";
+import { Menu } from "lucide-react";
+// import { useTheme } from "next-themes";
 import clsx from "clsx";
 
 const Navbar = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
+  // const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +25,7 @@ const Navbar = () => {
   return (
     <nav
       className={clsx(
-        "fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center justify-between px-6 py-2",
+        "fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center justify-between px-6 py-3",
         "backdrop-blur-lg bg-white/60 dark:bg-gray-900/60 rounded-full shadow-lg",
         "transition-all duration-300 z-50",
         { "shadow-xl": hasScrolled }
@@ -54,26 +55,32 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              href="/about"
+              href="/#about"
               className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
             >
               About
             </Link>
             <Link
-              href="/services"
+              href="#services"
               className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
             >
               Services
             </Link>
             <Link
-              href="/contact"
+              href="/#portfolio"
+              className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
+            >
+              Portfolio
+            </Link>
+            <Link
+              href="/#contact"
               className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
             >
               Contact
             </Link>
 
             {/* Theme Toggle Inside Mobile Menu */}
-            <div className="flex items-center space-x-2 mt-6">
+            {/* <div className="flex items-center space-x-2 mt-6">
               <button
                 className="flex items-center text-gray-900 dark:text-white"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -83,7 +90,7 @@ const Navbar = () => {
                   {theme === "dark" ? "Light Mode" : "Dark Mode"}
                 </span>
               </button>
-            </div>
+            </div> */}
           </div>
         </SheetContent>
       </Sheet>
@@ -97,19 +104,25 @@ const Navbar = () => {
           Home
         </Link>
         <Link
-          href="/about"
+          href="/#about"
           className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
         >
           About
         </Link>
         <Link
-          href="/services"
+          href="/#services"
           className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
         >
           Services
         </Link>
         <Link
-          href="/contact"
+          href="/#portfolio"
+          className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
+        >
+          Portfolio
+        </Link>
+        <Link
+          href="/#contact"
           className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
         >
           Contact
@@ -117,14 +130,14 @@ const Navbar = () => {
       </div>
 
       {/* Theme Toggle Button (for Desktop) */}
-      <Button
+      {/* <Button
         variant="ghost"
         size="icon"
         className="ml-4 hidden md:flex"
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >
         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-      </Button>
+      </Button> */}
     </nav>
   );
 };

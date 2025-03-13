@@ -6,7 +6,7 @@ import { Cover } from "./ui/cover";
 
 const ServicesSection = () => {
   return (
-    <section id="services-section" className="container pt-48 pb-48">
+    <section id="services" className="container pt-48 pb-48">
       {/* Heading */}
       <h1 className="text-center mb-10">
         <BlurFade delay={0.25} inView>
