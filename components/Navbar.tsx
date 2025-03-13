@@ -30,14 +30,22 @@ const Navbar = () => {
         { "shadow-xl": hasScrolled }
       )}
     >
-      {/* Mobile Menu */}
+      {/* Mobile Menu with Website Name and Menu Button */}
       <Sheet>
         <SheetTrigger asChild>
-          <button className="md:hidden text-gray-900 dark:text-white">
-            <Menu size={24} />
-          </button>
+          <div className="flex items-center justify-between w-full md:hidden">
+            {/* Website Name on the left */}
+            <span className="text-lg font-semibold text-gray-900 dark:text-white">
+              avizitRX
+            </span>
+
+            {/* Menu Button on the right */}
+            <button className="text-gray-900 dark:text-white ml-50">
+              <Menu size={24} />
+            </button>
+          </div>
         </SheetTrigger>
-        <SheetContent side="left" className="bg-white dark:bg-gray-900 p-6">
+        <SheetContent side="right" className="bg-white dark:bg-gray-900 p-6">
           <div className="flex flex-col space-y-4 mt-6">
             <Link
               href="/"
@@ -63,6 +71,19 @@ const Navbar = () => {
             >
               Contact
             </Link>
+
+            {/* Theme Toggle Inside Mobile Menu */}
+            <div className="flex items-center space-x-2 mt-6">
+              <button
+                className="flex items-center text-gray-900 dark:text-white"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+                <span className="ml-2">
+                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                </span>
+              </button>
+            </div>
           </div>
         </SheetContent>
       </Sheet>
@@ -95,11 +116,11 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Theme Toggle Button */}
+      {/* Theme Toggle Button (for Desktop) */}
       <Button
         variant="ghost"
         size="icon"
-        className="ml-4"
+        className="ml-4 hidden md:flex"
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >
         {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
