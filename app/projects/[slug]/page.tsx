@@ -18,7 +18,7 @@ const formatDate = (dateString: string) => {
 };
 
 export async function generateMetadata({ params }): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
   if (!project) {
@@ -31,6 +31,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   const { meta } = project;
 
   return {
+    metadataBase: new URL("https://avizitrx.com"),
     title: meta.title,
     description: meta.description,
     openGraph: {
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+  const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
   if (!project) {

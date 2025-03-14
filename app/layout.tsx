@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import NextTopLoader from "nextjs-toploader";
 
 const lato = Lato({
   weight: "400",
@@ -28,6 +29,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NextTopLoader height={2} showSpinner={false} />
           {children}
         </ThemeProvider>
       </body>
