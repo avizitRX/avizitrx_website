@@ -3,6 +3,7 @@ import { getProjectBySlug } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import CustomMDXComponents from "@/components/CustomMDXComponents";
 import Image from "next/image";
+import { Metadata } from "next";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -15,6 +16,40 @@ const formatDate = (dateString: string) => {
     year: "numeric",
   })}`;
 };
+
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const { slug } = params;
+  const project = await getProjectBySlug(slug);
+
+  if (!project) {
+    return {
+      title: "Project Not Found!",
+      description: "The requested project could not be found.",
+    };
+  }
+
+  const { meta } = project;
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      images: meta.image
+        ? [`${process.env.NEXT_PUBLIC_BASE_URL}${meta.image}`]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
+      images: meta.image
+        ? [`${process.env.NEXT_PUBLIC_BASE_URL}${meta.image}`]
+        : [],
+    },
+  };
+}
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -69,7 +104,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           )}
 
           {/* Content */}
-          <div className="prose dark:prose-invert max-w-none">
+          <div className="prose dark:prose-invert">
             <MDXRemote source={content} components={CustomMDXComponents} />
           </div>
 

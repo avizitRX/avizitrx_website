@@ -2,25 +2,38 @@ import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-// Function to extract caption from image alt text
-const CustomImage = ({ src, alt }: { src: string; alt: string }) => {
-  const [altText, caption] = alt.split("|").map((text) => text.trim());
-
+// Custom Image component to support captions
+const CustomImage = ({
+  src,
+  alt,
+  title,
+}: {
+  src: string;
+  alt?: string;
+  title?: string;
+}) => {
   return (
-    <figure className="my-6">
+    <figure className="flex flex-col items-center">
       <Image
         src={src}
         width={800}
-        height={500}
-        alt={altText}
-        className="rounded-lg shadow-md"
+        height={450}
+        alt={alt || "Image"}
+        className="rounded-lg shadow-lg"
       />
-      {caption && (
-        <figcaption className="text-sm text-center text-gray-500 dark:text-gray-400 mt-2">
-          {caption}
-        </figcaption>
+      {title && (
+        <figcaption className="text-sm text-gray-500 mt-2">{title}</figcaption>
       )}
     </figure>
+  );
+};
+
+// Table wrapper for better styling
+const CustomTable = (props: any) => {
+  return (
+    <table className="w-full border-collapse border border-gray-300">
+      {props.children}
+    </table>
   );
 };
 
@@ -73,10 +86,11 @@ export const CustomMDXComponents = {
     </pre>
   ),
   code: ({ children }: { children: ReactNode }) => (
-    <code className="bg-gray-200 dark:bg-gray-800 text-red-500 px-1 py-0.5 rounded">
+    <code className="text-neutral-800 dark:text-neutral-300 px-1 py-0.5 rounded">
       {children}
     </code>
   ),
+  table: CustomTable,
 };
 
 export default CustomMDXComponents;
