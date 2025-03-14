@@ -16,7 +16,7 @@ import { Post } from "@/lib/types"; // ✅ Import Post type
 export const HeroParallax = ({ posts }: { posts: Post[] }) => {
   const firstRow = posts.slice(0, 5);
   const secondRow = posts.slice(5, 10);
-  const thirdRow = posts.slice(10, 15);
+  const thirdRow = posts.slice(3, 8);
   const ref = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,

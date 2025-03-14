@@ -79,7 +79,7 @@ export default async function Page({
       <Navbar />
 
       <section className="pt-30 lg:px-0">
-        <div className="container max-w-[75ch] mx-auto">
+        <div className="container max-w-[90ch] mx-auto">
           {/* Title and Date */}
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             {meta.title}
@@ -108,7 +108,7 @@ export default async function Page({
           )}
 
           {/* Content */}
-          <div className="prose dark:prose-invert">
+          <div className="text-justify">
             <MDXRemote source={content} components={CustomMDXComponents} />
           </div>
 
