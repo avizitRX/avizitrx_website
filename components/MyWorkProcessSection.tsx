@@ -5,11 +5,16 @@ import { StickyScroll } from "./ui/sticky-scroll-reveal";
 
 const MyWorkProcessSection = () => {
   return (
-    <section id="my-work-process" className="pt-24 pb-24">
+    <section
+      id="my-work-process"
+      className="container overflow-hidden pt-24 pb-24"
+    >
       {/* Heading */}
       <h1 className="text-center mb-10">
         <BlurFade delay={0.25} inView>
-          <AuroraText className="text-6xl">My Work Process</AuroraText>
+          <AuroraText className="text-4xl md:text-6xl overflow-hidden">
+            My Work Process
+          </AuroraText>
         </BlurFade>
       </h1>
 

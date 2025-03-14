@@ -15,7 +15,10 @@ const AboutSection = () => {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </VelocityScroll>
 
-      <section id="about" className="container pt-20 md:pt-48 pb-20 md:pb-24">
+      <section
+        id="about"
+        className="container overflow-hidden pt-20 md:pt-48 pb-20 md:pb-24"
+      >
         {/* Heading */}
         <h1 className="text-center mb-10">
           <BlurFade delay={0.25} inView>
