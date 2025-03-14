@@ -29,7 +29,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NextTopLoader height={2} showSpinner={false} />
+          <NextTopLoader height={2} initialPosition={0.3} showSpinner={false} />
           {children}
         </ThemeProvider>
       </body>
