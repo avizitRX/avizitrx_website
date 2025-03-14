@@ -1,44 +1,40 @@
-// import AboutSection from "@/components/AboutSection";
 import AboutSection from "@/components/AboutSection";
 import HeroSection from "@/components/HeroSection";
-import MyWorkProcess from "@/components/MyWorkProcess";
+import MyWorkProcessSection from "@/components/MyWorkProcessSection";
 import Navbar from "@/components/Navbar";
+import PortfolioSection from "@/components/PortfolioSection";
 import ServicesSection from "@/components/ServicesSection";
-import Head from "next/head";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Avizit Roy | Web & Mobile App Developer",
+    template: "%s | Avizit Roy",
+  },
+  description:
+    "Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development.",
+  alternates: {
+    canonical: "https://avizitrx.com",
+  },
+  openGraph: {
+    title: "Avizit Roy | Web & Mobile App Developer",
+    description:
+      "Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development.",
+    url: "https://avizitrx.com",
+    siteName: "Avizit Roy | Web & Mobile App Developer",
+    images: [{ url: "https://avizitrx.com/Avizit Roy.png" }],
+  },
+};
 
 export default function Home() {
   return (
     <>
-      <Head>
-        <title>Avizit Roy | Web & Mobile App Developer</title>
-        <meta
-          name="description"
-          content="Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development."
-        />
-        <meta
-          name="keywords"
-          content="Avizit Roy, avizitRX, Web Developer, Mobile App Developer"
-        />
-        <meta name="author" content="Avizit Roy" />
-        <meta
-          property="og:title"
-          content="Avizit Roy | Web & Mobile App Developer"
-        />
-        <meta
-          property="og:description"
-          content="Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development."
-        />
-        <meta property="og:image" content="../public/Avizit Roy.png" />
-        <meta property="og:type" content="website" />
-      </Head>
-
-      <main>
-        <Navbar />
-        <HeroSection />
-        <AboutSection />
-        <ServicesSection />
-        <MyWorkProcess />
-      </main>
+      <Navbar />
+      <HeroSection />
+      <AboutSection />
+      <ServicesSection />
+      <MyWorkProcessSection />
+      <PortfolioSection />
     </>
   );
 }

@@ -26,7 +26,7 @@ const AboutSection = () => {
         {/* Flex Columns */}
         <div className="flex gap-4 flex-col-reverse md:flex-row">
           {/* Column 1 */}
-          <div className="basis-0.5 flex-auto content-center align-middle z-50">
+          <div className="basis-0.5 flex-auto content-center align-middle z-40">
             <BlurFade delay={0.25 * 2} inView>
               <p className="text-base lg:text-xl text-justify">
                 I&apos;m a computer engineer with a passion for creating digital

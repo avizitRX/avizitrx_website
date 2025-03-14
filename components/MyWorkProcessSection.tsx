@@ -3,7 +3,7 @@ import { BlurFade } from "./magicui/blur-fade";
 import { AuroraText } from "./magicui/aurora-text";
 import { StickyScroll } from "./ui/sticky-scroll-reveal";
 
-const MyWorkProcess = () => {
+const MyWorkProcessSection = () => {
   return (
     <section id="my-work-process" className="pt-24 pb-24">
       {/* Heading */}
@@ -18,7 +18,7 @@ const MyWorkProcess = () => {
   );
 };
 
-export default MyWorkProcess;
+export default MyWorkProcessSection;
 
 const content = [
   {
