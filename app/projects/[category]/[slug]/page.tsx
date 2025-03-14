@@ -6,20 +6,19 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const day = date.getDate();
-  const suffix = ["th", "st", "nd", "rd"][
-    day % 10 > 3 || (day % 100 >= 11 && day % 100 <= 13) ? 0 : day % 10
-  ];
-  return `${day}${suffix} ${date.toLocaleString("en-US", {
+  const [day, month, year] = dateString.split("/").map(Number);
+  const date = new Date(year, month - 1, day); // Create a Date object
+
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
     month: "long",
     year: "numeric",
-  })}`;
+  });
 };
 
 export async function generateMetadata({ params }): Promise<Metadata> {
-  const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+  const { category, slug } = await params;
+  const project = await getProjectBySlug(category, slug);
 
   if (!project) {
     return {
@@ -52,9 +51,13 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   };
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+export default async function Page({
+  params,
+}: {
+  params: { category: string; slug: string };
+}) {
+  const { category, slug } = await params;
+  const project = await getProjectBySlug(category, slug);
 
   if (!project) {
     return (

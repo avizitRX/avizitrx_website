@@ -117,7 +117,7 @@ export const PostCard = ({
       className="group/post h-96 w-[30rem] relative shrink-0"
     >
       <Link
-        href={`/projects/${post.slug}`}
+        href={`/projects/${post.category}/${post.slug}`}
         className="block group-hover/post:shadow-2xl"
       >
         <Image
