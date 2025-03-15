@@ -3,8 +3,8 @@ import { AuroraText } from "./magicui/aurora-text";
 import OrbitingCirclesUI from "./ui/OrbitingCirclesUI";
 import { SparklesText } from "./magicui/sparkles-text";
 import { BlurFade } from "./magicui/blur-fade";
-import { RainbowButton } from "./magicui/rainbow-button";
 import { VelocityScroll } from "./magicui/scroll-based-velocity";
+import { InteractiveHoverButton } from "./magicui/interactive-hover-button";
 
 const AboutSection = () => {
   return (
@@ -51,11 +51,11 @@ const AboutSection = () => {
               </p>
             </BlurFade>
 
-            {/* Center the button in mobile view */}
+            {/* Learn More Button */}
             <BlurFade delay={0.25 * 2} inView className="mt-5">
-              <div className="flex justify-center lg:justify-start">
-                <RainbowButton>Learn More</RainbowButton>
-              </div>
+              <InteractiveHoverButton className="block max-sm:m-auto">
+                Learn More
+              </InteractiveHoverButton>
             </BlurFade>
           </div>
 
