@@ -3,6 +3,7 @@ import BlogSection from "@/components/BlogSection";
 import HeroSection from "@/components/HeroSection";
 import MyWorkProcessSection from "@/components/MyWorkProcessSection";
 import Navbar from "@/components/Navbar";
+import NextLevelSection from "@/components/NextLevelSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import ServicesSection from "@/components/ServicesSection";
 import type { Metadata } from "next";
@@ -37,6 +38,7 @@ export default function Home() {
       <MyWorkProcessSection />
       <PortfolioSection />
       <BlogSection />
+      <NextLevelSection />
     </>
   );
 }
