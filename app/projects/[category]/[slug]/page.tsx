@@ -4,11 +4,12 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import CustomMDXComponents from "@/components/CustomMDXComponents";
 import Image from "next/image";
 import { Metadata } from "next";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
 
 const formatDate = (dateString: string) => {
   const [day, month, year] = dateString.split("/").map(Number);
-  const date = new Date(year, month - 1, day); // Create a Date object
-
+  const date = new Date(year, month - 1, day);
   return date.toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
@@ -17,7 +18,7 @@ const formatDate = (dateString: string) => {
 };
 
 export async function generateMetadata({ params }): Promise<Metadata> {
-  const { category, slug } = await params;
+  const { category, slug } = params;
   const project = await getProjectBySlug(category, slug);
 
   if (!project) {
@@ -28,7 +29,6 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   }
 
   const { meta } = project;
-
   return {
     metadataBase: new URL("https://avizitrx.com"),
     title: meta.title,
@@ -51,85 +51,97 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   };
 }
 
-export default async function Page({
+async function TitleSection({ category, slug }) {
+  const project = await getProjectBySlug(category, slug);
+  if (!project)
+    return <p className="text-gray-400 text-lg">Project not found!</p>;
+
+  return (
+    <>
+      <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        {project.meta.title}
+      </h1>
+      <p className="text-gray-500 dark:text-gray-400 text-lg mb-6">
+        Published on {formatDate(project.meta.date)}
+      </p>
+    </>
+  );
+}
+
+async function ThumbnailSection({ category, slug }) {
+  const project = await getProjectBySlug(category, slug);
+  if (!project || !project.meta.image) return null;
+
+  return (
+    <figure className="mb-8">
+      <Image
+        src={project.meta.image}
+        width={800}
+        height={450}
+        alt={project.meta.title}
+        className="rounded-lg shadow-md"
+        priority
+      />
+      {project.meta.caption && (
+        <figcaption className="text-sm text-center text-gray-500 dark:text-gray-400 mt-2">
+          {project.meta.caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+async function ContentSection({ category, slug }) {
+  const project = await getProjectBySlug(category, slug);
+  if (!project) return null;
+
+  return (
+    <div className="text-justify">
+      <MDXRemote source={project.content} components={CustomMDXComponents} />
+    </div>
+  );
+}
+
+export default function Page({
   params,
 }: {
   params: { category: string; slug: string };
 }) {
-  const { category, slug } = await params;
-  const project = await getProjectBySlug(category, slug);
-
-  if (!project) {
-    return (
-      <>
-        <Navbar />
-        <div className="flex items-center justify-center h-[80vh]">
-          <p className="text-center text-gray-400 text-lg">
-            Project not found!
-          </p>
-        </div>
-      </>
-    );
-  }
-
-  const { meta, content } = project;
-
   return (
     <>
       <Navbar />
-
       <section className="pt-30 lg:px-0">
         <div className="container max-w-[90ch] mx-auto">
-          {/* Title and Date */}
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            {meta.title}
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-lg mb-6">
-            Published on {formatDate(meta.date)}
-          </p>
+          {/* Title Section */}
+          <Suspense
+            fallback={
+              <>
+                <Skeleton className="w-3/4 h-10 mb-4" />
+                <Skeleton className="w-1/4 h-5 mb-6" />
+              </>
+            }
+          >
+            <TitleSection category={params.category} slug={params.slug} />
+          </Suspense>
 
-          {/* Thumbnail with Caption */}
-          {meta.image && (
-            <figure className="mb-8">
-              <Image
-                src={meta.image}
-                width={800}
-                height={450}
-                alt={meta.title}
-                className="rounded-lg shadow-md"
-                priority
-              />
-              {meta.caption && (
-                <figcaption className="text-sm text-center text-gray-500 dark:text-gray-400 mt-2">
-                  {meta.caption}
-                </figcaption>
-              )}
-            </figure>
-          )}
+          {/* Thumbnail Section */}
+          <Suspense fallback={<Skeleton className="w-full h-[450px] mb-8" />}>
+            <ThumbnailSection category={params.category} slug={params.slug} />
+          </Suspense>
 
-          {/* Content */}
-          <div className="text-justify">
-            <MDXRemote source={content} components={CustomMDXComponents} />
-          </div>
-
-          {/* Tags Section */}
-          {meta.tags && (
-            <div className="mt-8">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                Tags:
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {meta.tags.map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Content Section */}
+          <Suspense
+            fallback={
+              <>
+                <Skeleton className="w-full h-6 mb-2" />
+                <Skeleton className="w-full h-6 mb-2" />
+                <Skeleton className="w-3/4 h-6 mb-2" />
+                <Skeleton className="w-1/2 h-6 mb-2" />
+              </>
+            }
+          >
+            <ContentSection category={params.category} slug={params.slug} />
+          </Suspense>
         </div>
       </section>
     </>
