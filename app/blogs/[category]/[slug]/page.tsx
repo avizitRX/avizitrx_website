@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { getProjectBySlug } from "@/lib/mdx";
+import { getBlogBySlug } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import CustomMDXComponents from "@/components/CustomMDXComponents";
 import Image from "next/image";
@@ -20,16 +20,16 @@ const formatDate = (dateString: string) => {
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const { category, slug } = await params;
-  const project = await getProjectBySlug(category, slug);
+  const blog = await getBlogBySlug(category, slug);
 
-  if (!project) {
+  if (!blog) {
     return {
-      title: "Project Not Found!",
-      description: "The requested project could not be found.",
+      title: "Blog Not Found!",
+      description: "The requested blog could not be found.",
     };
   }
 
-  const { meta } = project;
+  const { meta } = blog;
 
   return {
     metadataBase: new URL("https://avizitrx.com"),
@@ -54,17 +54,17 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 }
 
 async function ProjectContent({ category, slug }) {
-  const project = await getProjectBySlug(category, slug);
+  const blog = await getBlogBySlug(category, slug);
 
-  if (!project) {
+  if (!blog) {
     return (
       <div className="flex items-center justify-center h-[80vh]">
-        <p className="text-center text-gray-400 text-lg">Project not found!</p>
+        <p className="text-center text-gray-400 text-lg">Blog not found!</p>
       </div>
     );
   }
 
-  const { meta, content } = project;
+  const { meta, content } = blog;
 
   return (
     <section className="pt-30 lg:px-0">

@@ -122,6 +122,12 @@ const Navbar = () => {
           Portfolio
         </Link>
         <Link
+          href="/#blog"
+          className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
+        >
+          Blog
+        </Link>
+        <Link
           href="/#contact"
           className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
         >

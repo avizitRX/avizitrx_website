@@ -121,7 +121,7 @@ export const PostCard = ({
         className="block group-hover/post:shadow-2xl"
       >
         <Image
-          src={post.image ?? "/Avizit Roy.png"} // Default placeholder if no image
+          src={post.image ?? "/Avizit Roy.png"} // TODO: Default placeholder if no image
           height={600}
           width={600}
           className="object-cover object-left-top absolute h-full w-full inset-0"
