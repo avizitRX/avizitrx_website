@@ -1,5 +1,6 @@
 import AboutSection from "@/components/AboutSection";
 import BlogSection from "@/components/BlogSection";
+import CtaSection from "@/components/CtaSection";
 import HeroSection from "@/components/HeroSection";
 import MyWorkProcessSection from "@/components/MyWorkProcessSection";
 import Navbar from "@/components/Navbar";
@@ -41,6 +42,7 @@ export default function Home() {
       <BlogSection />
       <NextLevelSection />
       <TestimonialSection />
+      <CtaSection />
     </>
   );
 }
