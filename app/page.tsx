@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import NextLevelSection from "@/components/NextLevelSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import ServicesSection from "@/components/ServicesSection";
+import { TestimonialSection } from "@/components/TestimonialSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ export default function Home() {
       <PortfolioSection />
       <BlogSection />
       <NextLevelSection />
+      <TestimonialSection />
     </>
   );
 }
