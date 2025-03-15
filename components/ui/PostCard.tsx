@@ -32,9 +32,9 @@ const PostCard = ({
 }: PostCardProps) => {
   return (
     <Link href={`/blogs/${category}/${slug}`} className="block">
-      <div className="flex bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden transition hover:shadow-xl h-[220px]">
-        {/* Thumbnail on the Left (Fixed Size) */}
-        <div className="w-1/3 h-full">
+      <div className="flex flex-col xl:flex-row bg-white dark:bg-gray-900 shadow-lg rounded-lg overflow-hidden transition hover:shadow-xl xl:h-[220px]">
+        {/* Thumbnail (Appears on top in mobile, left on larger screens) */}
+        <div className="w-full xl:w-1/3 h-[200px] xl:h-auto">
           <Image
             src={image ?? "/Avizit_Roy.png"}
             alt={title}
@@ -44,8 +44,8 @@ const PostCard = ({
           />
         </div>
 
-        {/* Post Details on the Right */}
-        <div className="w-2/3 p-5 flex flex-col">
+        {/* Post Details */}
+        <div className="w-full xl:w-2/3 p-5 flex flex-col">
           {/* Category and Date */}
           <div className="text-xs text-gray-600 dark:text-gray-400 flex justify-between gap-3">
             <span className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full text-xs">
