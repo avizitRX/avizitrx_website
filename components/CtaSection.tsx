@@ -3,9 +3,9 @@ import { TextReveal } from "./magicui/text-reveal";
 
 const CtaSection = () => {
   return (
-    <div>
+    <section id="cta">
       <TextReveal>Got a project in mind? Let&apos;s Chat!</TextReveal>
-    </div>
+    </section>
   );
 };
 

@@ -1,5 +1,6 @@
 import AboutSection from "@/components/AboutSection";
 import BlogSection from "@/components/BlogSection";
+import ContactMeSection from "@/components/ContactMeSection";
 import CtaSection from "@/components/CtaSection";
 import HeroSection from "@/components/HeroSection";
 import MyWorkProcessSection from "@/components/MyWorkProcessSection";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
       "Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development.",
     url: "https://avizitrx.com",
     siteName: "Avizit Roy | Web & Mobile App Developer",
-    images: [{ url: "https://avizitrx.com/Avizit Roy.png" }],
+    images: [{ url: "https://avizitrx.com/Avizit_Roy.png" }],
   },
 };
 
@@ -43,6 +44,7 @@ export default function Home() {
       <NextLevelSection />
       <TestimonialSection />
       <CtaSection />
+      <ContactMeSection />
     </>
   );
 }
