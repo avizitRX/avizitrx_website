@@ -3,7 +3,6 @@ import { getBlogBySlug } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import CustomMDXComponents from "@/components/CustomMDXComponents";
 import Image from "next/image";
-import { Metadata } from "next";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import FooterSection from "@/components/FooterSection";
@@ -11,7 +10,6 @@ import FooterSection from "@/components/FooterSection";
 const formatDate = (dateString: string) => {
   const [day, month, year] = dateString.split("/").map(Number);
   const date = new Date(year, month - 1, day);
-
   return date.toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
@@ -19,8 +17,14 @@ const formatDate = (dateString: string) => {
   });
 };
 
-export async function generateMetadata({ params }): Promise<Metadata> {
-  const { category, slug } = params;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string; slug: string }>;
+}) {
+  const resolvedParams = await params;
+  const { category, slug } = resolvedParams;
+
   const blog = await getBlogBySlug(category, slug);
 
   if (!blog) {
@@ -74,7 +78,13 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   };
 }
 
-async function ProjectContent({ category, slug }) {
+async function ProjectContent({
+  category,
+  slug,
+}: {
+  category: string;
+  slug: string;
+}) {
   const blog = await getBlogBySlug(category, slug);
 
   if (!blog) {
@@ -109,11 +119,6 @@ async function ProjectContent({ category, slug }) {
               className="rounded-lg shadow-md"
               priority
             />
-            {meta.caption && (
-              <figcaption className="text-sm text-center text-gray-500 dark:text-gray-400 mt-2">
-                {meta.caption}
-              </figcaption>
-            )}
           </figure>
         )}
 
@@ -145,11 +150,12 @@ async function ProjectContent({ category, slug }) {
   );
 }
 
-export default function Page({
+export default async function Page({
   params,
 }: {
-  params: { category: string; slug: string };
+  params: Promise<{ category: string; slug: string }>;
 }) {
+  const { category, slug } = await params;
   return (
     <>
       <Navbar />
@@ -176,7 +182,7 @@ export default function Page({
           </div>
         }
       >
-        <ProjectContent category={params.category} slug={params.slug} />
+        <ProjectContent category={category} slug={slug} />
       </Suspense>
       <FooterSection />
     </>

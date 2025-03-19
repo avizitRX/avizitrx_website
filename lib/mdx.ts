@@ -72,7 +72,12 @@ export const getPostBySlug = async (
   const fileContent = await fs.promises.readFile(filePath, "utf-8");
   const { data: frontmatter, content } = matter(fileContent);
 
-  return { meta: { ...frontmatter, slug, category }, content };
+  const { title, description, date, image, tags } = frontmatter;
+
+  return {
+    meta: { title, description, date, image, tags, slug, category },
+    content,
+  };
 };
 
 // Get metadata for all posts in a directory (recursively)

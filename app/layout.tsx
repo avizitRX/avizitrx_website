@@ -39,12 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${lato.className} bg-white dark:bg-black antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider>
           <NextTopLoader height={2} initialPosition={0.3} showSpinner={false} />
           {children}
         </ThemeProvider>

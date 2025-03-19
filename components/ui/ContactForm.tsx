@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, User, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -31,11 +30,13 @@ export default function ContactForm() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.honeypot) return; // Honeypot field to block bots
     setLoading(true);
@@ -57,7 +58,7 @@ export default function ContactForm() {
       setSuccess(true);
       setFormData({ name: "", email: "", message: "", honeypot: "" });
     } catch (err) {
-      setError(err.message);
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -67,9 +68,9 @@ export default function ContactForm() {
     <div className="shadow-input mx-auto w-full rounded-2xl bg-white md:p-8 dark:bg-black">
       <form className="my-8 space-y-4" onSubmit={handleSubmit}>
         <LabelInputContainer>
-          <Label htmlFor="name" className="flex items-center text-md">
+          <label htmlFor="name" className="flex items-center text-md">
             <User className="mr-2 text-gray-500" /> Name
-          </Label>
+          </label>
           <Input
             id="name"
             name="name"
@@ -81,9 +82,9 @@ export default function ContactForm() {
           />
         </LabelInputContainer>
         <LabelInputContainer>
-          <Label htmlFor="email" className="flex items-center text-md">
+          <label htmlFor="email" className="flex items-center text-md">
             <Mail className="mr-2 text-gray-500" /> Email
-          </Label>
+          </label>
           <Input
             id="email"
             name="email"
@@ -95,9 +96,9 @@ export default function ContactForm() {
           />
         </LabelInputContainer>
         <LabelInputContainer>
-          <Label htmlFor="message" className="flex items-center text-md">
+          <label htmlFor="message" className="flex items-center text-md">
             <MessageCircle className="mr-2 text-gray-500" /> Message
-          </Label>
+          </label>
           <Textarea
             id="message"
             name="message"
