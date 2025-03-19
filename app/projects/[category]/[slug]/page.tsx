@@ -51,6 +51,26 @@ export async function generateMetadata({ params }): Promise<Metadata> {
         ? [`${process.env.NEXT_PUBLIC_BASE_URL}${meta.image}`]
         : [],
     },
+    other: {
+      "application/ld+json": JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: meta.title,
+        author: {
+          "@type": "Person",
+          name: "Avizit Roy",
+        },
+        datePublished: meta.date,
+        publisher: {
+          "@type": "Person",
+          name: "Avizit Roy | Web & Mobile App Developer",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://avizitrx.com/avizitRX_Logo.png",
+          },
+        },
+      }),
+    },
   };
 }
 
