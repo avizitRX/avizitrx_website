@@ -1,36 +1,22 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import rateLimit from "express-rate-limit";
+import { NextRequest, NextResponse } from "next/server";
 
-const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5, // Allow 5 requests per IP per minute
-  message: { error: "Too many requests, please try again later." },
-});
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  // Apply rate limiting
-  await new Promise((resolve, reject) => {
-    limiter(req as any, res as any, (result: any) =>
-      result instanceof Error ? reject(result) : resolve(result)
-    );
-  });
-
-  if (req.method !== "POST")
-    return res.status(405).json({ error: "Method Not Allowed" });
-
-  const { name, email, subject, message, honeypot } = req.body;
-
-  // Honeypot Check (Bot Prevention)
-  if (honeypot) return res.status(400).json({ error: "Spam detected" });
-
-  if (!name || !email || !subject || !message) {
-    return res.status(400).json({ error: "All fields are required." });
-  }
-
+export async function POST(req: NextRequest) {
   try {
+    const body = await req.json();
+    const { name, email, message, honeypot } = body;
+
+    // Honeypot Check (Bot Prevention)
+    if (honeypot) {
+      return NextResponse.json({ error: "Spam detected" }, { status: 400 });
+    }
+
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: "All fields are required." },
+        { status: 400 }
+      );
+    }
+
     // Step 1: Get a new access token from Zoho
     const tokenRes = await fetch("https://accounts.zoho.com/oauth/v2/token", {
       method: "POST",
@@ -46,8 +32,12 @@ export default async function handler(
     const tokenData = await tokenRes.json();
     const accessToken = tokenData.access_token;
 
-    if (!accessToken)
-      return res.status(500).json({ error: "Zoho authentication failed" });
+    if (!accessToken) {
+      return NextResponse.json(
+        { error: "Zoho authentication failed" },
+        { status: 500 }
+      );
+    }
 
     // Step 2: Send email via Zoho Mail API
     const emailRes = await fetch(
@@ -61,20 +51,28 @@ export default async function handler(
         body: JSON.stringify({
           fromAddress: process.env.ZOHO_MAIL_FROM,
           toAddress: process.env.ZOHO_MAIL_TO,
-          subject: `New Contact: ${subject}`,
+          subject: `New Contact: ${email}`,
           content: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
         }),
       }
     );
 
-    if (!emailRes.ok)
-      return res.status(500).json({ error: "Email sending failed" });
+    if (!emailRes.ok) {
+      return NextResponse.json(
+        { error: "Email sending failed" },
+        { status: 500 }
+      );
+    }
 
-    res
-      .status(200)
-      .json({ success: true, message: "Email sent successfully!" });
+    return NextResponse.json({
+      success: true,
+      message: "Email sent successfully!",
+    });
   } catch (error) {
     console.error("Error sending email:", error);
-    res.status(500).json({ error: "Server error. Please try again." });
+    return NextResponse.json(
+      { error: "Server error. Please try again." },
+      { status: 500 }
+    );
   }
 }
