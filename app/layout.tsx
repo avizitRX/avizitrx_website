@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 
 const lato = Lato({
   weight: "400",
@@ -43,6 +44,8 @@ export default function RootLayout({
           <NextTopLoader height={2} initialPosition={0.3} showSpinner={false} />
           {children}
         </ThemeProvider>
+
+        <Analytics />
       </body>
     </html>
   );
