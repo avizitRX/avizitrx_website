@@ -20,7 +20,7 @@ const formatDate = (dateString: string) => {
 };
 
 export async function generateMetadata({ params }): Promise<Metadata> {
-  const { category, slug } = await params;
+  const { category, slug } = params;
   const blog = await getBlogBySlug(category, slug);
 
   if (!blog) {
