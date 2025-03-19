@@ -47,14 +47,14 @@ const ContactMeSection = () => {
     <section
       id="contact-me"
       ref={sectionRef}
-      className="relative flex items-center justify-center min-h-screen bg-black text-white px-6 overflow-hidden"
+      className="relative flex items-center justify-center bg-black text-white px-6 overflow-hidden"
     >
       {/* Confetti Effect */}
       <Confetti
         ref={confettiRef}
         className="absolute left-0 top-0 w-full h-full"
       />
-      <div className="container text-center mb-10">
+      <div className="container text-center">
         {/* Section Heading */}
         <BlurFade delay={0.25} inView>
           <AuroraText className="text-6xl">Contact Me</AuroraText>
@@ -62,19 +62,14 @@ const ContactMeSection = () => {
 
         {/* Two-column layout */}
         <BlurFade delay={0.25 * 2} inView>
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-12 items-start">
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-8 md:gap-12 items-start">
             {/* Left Column - Contact Form */}
+            <ContactInfo />
+
+            {/* Right Column - Contact Info (Aligned to Baseline) */}
             <div>
               <ContactForm />
             </div>
-
-            {/* Middle: Small but Visible Vertical Divider */}
-            <div className="hidden md:flex justify-center items-center h-full">
-              <div className="w-[2px] h-3/4 bg-neutral-500 dark:bg-neutral-600 opacity-70" />
-            </div>
-
-            {/* Right Column - Contact Info (Aligned to Baseline) */}
-            <ContactInfo />
           </div>
         </BlurFade>
       </div>

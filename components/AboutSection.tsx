@@ -10,8 +10,8 @@ const AboutSection = () => {
   return (
     <>
       <VelocityScroll defaultVelocity={1} numRows={2}>
-        Website Development &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mobile App
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AI/ML
+        Web Development &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mobile App
+        Development &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AI/ML
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </VelocityScroll>
 

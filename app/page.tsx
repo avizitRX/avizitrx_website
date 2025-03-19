@@ -2,6 +2,7 @@ import AboutSection from "@/components/AboutSection";
 import BlogSection from "@/components/BlogSection";
 import ContactMeSection from "@/components/ContactMeSection";
 import CtaSection from "@/components/CtaSection";
+import FooterSection from "@/components/FooterSection";
 import HeroSection from "@/components/HeroSection";
 import MyWorkProcessSection from "@/components/MyWorkProcessSection";
 import Navbar from "@/components/Navbar";
@@ -45,6 +46,7 @@ export default function Home() {
       <TestimonialSection />
       <CtaSection />
       <ContactMeSection />
+      <FooterSection />
     </>
   );
 }

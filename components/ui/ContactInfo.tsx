@@ -64,7 +64,7 @@ const ContactInfo = () => {
         {/* Email */}
         <FaEnvelope className="w-5 h-5 text-neutral-800 dark:text-neutral-300" />
         <div className="flex items-center space-x-3">
-          <p className="text-md text-neutral-600 dark:text-neutral-400">
+          <p className="text-lg text-neutral-600 dark:text-neutral-400">
             <a href={mailto} className="hover:underline">
               {email}
             </a>
@@ -75,7 +75,7 @@ const ContactInfo = () => {
       {/* Address */}
       <div className="flex items-center max-sm:justify-center space-x-3">
         <FaLocationDot className="w-5 h-5 text-neutral-800 dark:text-neutral-300" />
-        <p className="text-md text-neutral-600 dark:text-neutral-400">
+        <p className="text-lg text-neutral-600 dark:text-neutral-400">
           Dhaka, Bangladesh
         </p>
       </div>

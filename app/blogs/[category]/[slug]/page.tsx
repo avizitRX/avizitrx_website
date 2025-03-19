@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
+import FooterSection from "@/components/FooterSection";
 
 const formatDate = (dateString: string) => {
   const [day, month, year] = dateString.split("/").map(Number);
@@ -157,6 +158,7 @@ export default function Page({
       >
         <ProjectContent category={params.category} slug={params.slug} />
       </Suspense>
+      <FooterSection />
     </>
   );
 }
