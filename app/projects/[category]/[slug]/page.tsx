@@ -37,7 +37,7 @@ export async function generateMetadata({
   const { meta } = project;
 
   return {
-    metadataBase: new URL("https://avizitrx.com"),
+    metadataBase: new URL("https://www.avizitrx.com"),
     title: meta.title,
     description: meta.description,
     openGraph: {
@@ -70,7 +70,7 @@ export async function generateMetadata({
           name: "Avizit Roy | Web & Mobile App Developer",
           logo: {
             "@type": "ImageObject",
-            url: "https://avizitrx.com/avizitRX_Logo.png",
+            url: "https://www.avizitrx.com/avizitRX_Logo.png",
           },
         },
       }),

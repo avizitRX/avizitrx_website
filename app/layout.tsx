@@ -20,15 +20,15 @@ export const metadata: Metadata = {
   description:
     "Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development.",
   alternates: {
-    canonical: "https://avizitrx.com",
+    canonical: "https://www.avizitrx.com",
   },
   openGraph: {
     title: "Avizit Roy | Web & Mobile App Developer",
     description:
       "Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development.",
-    url: "https://avizitrx.com",
+    url: "https://www.avizitrx.com",
     siteName: "Avizit Roy | Web & Mobile App Developer",
-    images: [{ url: "https://avizitrx.com/Link_Share_Thumbnail.png" }],
+    images: [{ url: "https://www.avizitrx.com/Link_Share_Thumbnail.png" }],
   },
 };
 
