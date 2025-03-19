@@ -45,7 +45,7 @@ const PostCard = ({
           {/* Thumbnail (Appears on top in mobile, left on larger screens) */}
           <div className="w-full xl:w-1/3 h-[200px] xl:h-auto">
             <Image
-              src={image ?? "/Avizit_Roy.png"}
+              src={image ?? "/Link_Share_Thumbnail.png"}
               alt={title}
               width={300}
               height={220}

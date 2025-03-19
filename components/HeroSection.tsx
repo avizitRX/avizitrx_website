@@ -4,6 +4,7 @@ import { InteractiveHoverButton } from "./magicui/interactive-hover-button";
 import { TextAnimate } from "./magicui/text-animate";
 import Image from "next/image";
 import avizitRoy from "../public/Avizit Roy.png";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -51,7 +52,9 @@ const HeroSection = () => {
           {/* Book a call button */}
           <BlurFade delay={0.25 * 3} inView>
             <div className="flex flex-col md:flex-row gap-3 pt-10 items-center md:items-center">
-              <InteractiveHoverButton>Book a call</InteractiveHoverButton>
+              <Link href={"#contact-me"}>
+                <InteractiveHoverButton>Book a call</InteractiveHoverButton>
+              </Link>
 
               <TextAnimate
                 delay={0.25 * 4}

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
       "Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development.",
     url: "https://avizitrx.com",
     siteName: "Avizit Roy | Web & Mobile App Developer",
-    images: [{ url: "https://avizitrx.com/Avizit_Roy.png" }],
+    images: [{ url: "https://avizitrx.com/Link_Share_Thumbnail.png" }],
   },
 };
 
