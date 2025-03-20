@@ -45,7 +45,7 @@ const NextLevelSection = () => {
           </div>
           <div className="block md:hidden">
             <Image
-              src="/front-page/next-level.png"
+              src="/front-page/next-level.webp"
               height={720}
               width={1400}
               className="mx-auto rounded-2xl object-cover h-[280px] md:h-full object-left-top"
@@ -67,8 +67,8 @@ const items = [
       "I optimize UX, speed, and design to increase sales & sign-ups.",
     header: (
       <Compare
-        firstImage="/front-page/dream_home_before.png"
-        secondImage="/front-page/dream_home_after.png"
+        firstImage="/front-page/dream_home_before.webp"
+        secondImage="/front-page/dream_home_after.webp"
         firstImageClassName="object-cover  w-full"
         secondImageClassname="object-cover  w-full"
         className="w-full h-full rounded-[22px] md:rounded-lg"
