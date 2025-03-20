@@ -42,7 +42,7 @@ const Navbar = () => {
 
             {/* Menu Button on the right */}
             <button className="text-gray-900 dark:text-white ml-50">
-              <Menu size={24} />
+              <Menu size={24} aria-label="Menu" />
             </button>
           </div>
         </SheetTrigger>

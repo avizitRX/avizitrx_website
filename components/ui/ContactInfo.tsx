@@ -91,6 +91,7 @@ const ContactInfo = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-neutral-800 dark:text-neutral-200 transition-colors"
+                  aria-label={`Visit ${social.label}`}
                 >
                   {social.icon}
                 </a>
