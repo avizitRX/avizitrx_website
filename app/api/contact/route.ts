@@ -34,32 +34,102 @@ export async function POST(req: NextRequest) {
 
     if (!accessToken) {
       return NextResponse.json(
-        { error: "Zoho authentication failed" },
+        { error: "Email authentication failed" },
         { status: 500 }
       );
     }
 
-    // Step 2: Send email via Zoho Mail API
+    // Step 2: Retrieve the Zoho Mail account ID
+    // const accountRes = await fetch("https://mail.zoho.com/api/accounts", {
+    //   method: "GET",
+    //   headers: {
+    //     Authorization: `Zoho-oauthtoken ${accessToken}`,
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+
+    // if (!accountRes.ok) {
+    //   return NextResponse.json(
+    //     { error: "Failed to retrieve account information." },
+    //     { status: 500 }
+    //   );
+    // }
+
+    // const accountData = await accountRes.json();
+
+    const accountId = process.env.ZOHO_ACCOUNT_ID;
+
+    const emailHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Contact Form Submission</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); }
+    h2 { color: #333; text-align: center; }
+    .content { padding: 10px 20px; font-size: 16px; color: #555; line-height: 1.6; }
+    .info { margin-bottom: 15px; padding: 10px; background: #f9f9f9; border-radius: 5px; }
+    .info strong { color: #333; font-size: 14px; }
+    .footer { text-align: center; font-size: 14px; color: #888; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; }
+    @media (max-width: 600px) { .container { width: 90%; padding: 15px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>New Contact Form Submission</h2>
+    <div class="content">
+      <p>Hello,</p>
+      <p>You have received a new message from the contact form:</p>
+      <div class="info">
+        <strong>Name:</strong>
+        <p>${name}</p>
+      </div>
+      <div class="info">
+        <strong>Email:</strong>
+        <p>${email}</p>
+      </div>
+      <div class="info">
+        <strong>Message:</strong>
+        <p>${message}</p>
+      </div>
+      <p>Thank you.</p>
+    </div>
+    <div class="footer">
+      <p>&copy; 2025 avizitRX. All Rights Reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
+`;
+
+    // Step 3: Send email via Zoho Mail API
     const emailRes = await fetch(
-      "https://mail.zoho.com/api/accounts/me/messages",
+      `https://mail.zoho.com/api/accounts/${accountId}/messages`,
       {
         method: "POST",
         headers: {
           Authorization: `Zoho-oauthtoken ${accessToken}`,
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify({
           fromAddress: process.env.ZOHO_MAIL_FROM,
           toAddress: process.env.ZOHO_MAIL_TO,
           subject: `New Contact: ${email}`,
-          content: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+          content: emailHtml,
+          mailFormat: "html",
         }),
       }
     );
 
     if (!emailRes.ok) {
+      const errorData = await emailRes.json();
+
       return NextResponse.json(
-        { error: "Email sending failed" },
+        { error: `Email sending failed: ${errorData[0].msg}` },
         { status: 500 }
       );
     }

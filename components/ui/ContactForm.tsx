@@ -54,11 +54,13 @@ export default function ContactForm() {
       });
 
       if (!response.ok)
-        throw new Error("Something went wrong. Please try again.");
+        throw new Error(
+          "Message couldn't send. Please contact through Email, WhatsApp or Telegram."
+        );
       setSuccess(true);
       setFormData({ name: "", email: "", message: "", honeypot: "" });
     } catch (err) {
-      console.log(err);
+      setError(String(err));
     } finally {
       setLoading(false);
     }
