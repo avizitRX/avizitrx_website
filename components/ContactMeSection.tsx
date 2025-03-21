@@ -3,8 +3,10 @@ import React, { useRef, useEffect } from "react";
 import { Confetti, ConfettiRef } from "./magicui/confetti";
 import { BlurFade } from "./magicui/blur-fade";
 import { AuroraText } from "./magicui/aurora-text";
-import ContactForm from "./ui/ContactForm";
-import ContactInfo from "./ui/ContactInfo";
+import dynamic from "next/dynamic";
+
+const ContactForm = dynamic(() => import("./ui/ContactForm"), { ssr: false });
+const ContactInfo = dynamic(() => import("./ui/ContactInfo"), { ssr: false });
 
 const ContactMeSection = () => {
   const confettiRef = useRef<ConfettiRef>(null);

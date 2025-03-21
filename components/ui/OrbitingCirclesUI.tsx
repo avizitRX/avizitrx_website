@@ -1,6 +1,13 @@
 "use client";
+
 import React from "react";
-import { OrbitingCircles } from "../magicui/orbiting-circles";
+import dynamic from "next/dynamic";
+
+const OrbitingCircles = dynamic(
+  () =>
+    import("../magicui/orbiting-circles").then((mod) => mod.OrbitingCircles),
+  { ssr: false }
+);
 
 const OrbitingCirclesUI = () => {
   return (

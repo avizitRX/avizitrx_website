@@ -1,14 +1,42 @@
 "use client";
 
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
+import dynamic from "next/dynamic";
+import { Line, XAxis } from "recharts";
+import { ChartConfig, ChartTooltip } from "@/components/ui/chart";
 
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+// Dynamically import recharts components
+const CartesianGrid = dynamic(
+  () => import("recharts").then((mod) => mod.CartesianGrid),
+  { ssr: false }
+);
+const LabelList = dynamic(
+  () => import("recharts").then((mod) => mod.LabelList),
+  { ssr: false }
+);
+const LineChart = dynamic(
+  () => import("recharts").then((mod) => mod.LineChart),
+  { ssr: false }
+);
+
+// Dynamically import UI components
+const Card = dynamic(
+  () => import("@/components/ui/card").then((mod) => mod.Card),
+  { ssr: false }
+);
+const CardContent = dynamic(
+  () => import("@/components/ui/card").then((mod) => mod.CardContent),
+  { ssr: false }
+);
+
+const ChartContainer = dynamic(
+  () => import("@/components/ui/chart").then((mod) => mod.ChartContainer),
+  { ssr: false }
+);
+const ChartTooltipContent = dynamic(
+  () => import("@/components/ui/chart").then((mod) => mod.ChartTooltipContent),
+  { ssr: false }
+);
+
 const chartData = [
   { month: "January", desktop: 186 },
   { month: "February", desktop: 2235 },

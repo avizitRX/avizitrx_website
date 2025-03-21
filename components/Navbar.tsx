@@ -2,12 +2,26 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 // import { Button } from "@/components/ui/button";
 // import { Menu, Sun, Moon } from "lucide-react";
 import { Menu } from "lucide-react";
 // import { useTheme } from "next-themes";
 import clsx from "clsx";
+import dynamic from "next/dynamic";
+
+const Sheet = dynamic(
+  () => import("@/components/ui/sheet").then((mod) => mod.Sheet),
+  { ssr: false }
+);
+const SheetContent = dynamic(
+  () => import("@/components/ui/sheet").then((mod) => mod.SheetContent),
+  { ssr: false }
+);
+const SheetTrigger = dynamic(
+  () => import("@/components/ui/sheet").then((mod) => mod.SheetTrigger),
+  { ssr: false }
+);
 
 const Navbar = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
