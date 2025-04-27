@@ -44,7 +44,7 @@ export async function generateMetadata({
       title: meta.title,
       description: meta.description,
       images: meta.image
-        ? [`${process.env.NEXT_PUBLIC_BASE_URL}${meta.image}`]
+        ? [`${process.env.NEXT_PUBLIC_HOST}${meta.image}`]
         : [],
     },
     twitter: {
@@ -52,7 +52,7 @@ export async function generateMetadata({
       title: meta.title,
       description: meta.description,
       images: meta.image
-        ? [`${process.env.NEXT_PUBLIC_BASE_URL}${meta.image}`]
+        ? [`${process.env.NEXT_PUBLIC_HOST}${meta.image}`]
         : [],
     },
     other: {
