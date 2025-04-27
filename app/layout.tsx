@@ -1,6 +1,5 @@
 import { Lato } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
@@ -38,17 +37,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <body className={`${lato.className} bg-white dark:bg-black antialiased`}>
-        <ThemeProvider
-           attribute="class"
-           defaultTheme="dark"
-           disableTransitionOnChange
-         >
-          <NextTopLoader height={2} initialPosition={0.3} showSpinner={false} />
-          {children}
-        </ThemeProvider>
-
+        <NextTopLoader height={2} initialPosition={0.3} showSpinner={false} />
+        {children}
         <Analytics />
       </body>
     </html>
