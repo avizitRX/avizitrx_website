@@ -7,7 +7,7 @@ const parseDate = (dateStr: string): Date => {
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_HOST;
 
   const projects = await getProjectMetadata();
   //   const blogs = await getBlogMetadata();
