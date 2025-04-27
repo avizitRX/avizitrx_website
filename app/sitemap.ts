@@ -18,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   //   }));
 
   const projectUrls = projects.map((project) => ({
-    url: `${baseUrl}/projects/${project.category}/${project.slug}`,
+    url: `${baseUrl}projects/${project.category}/${project.slug}`,
     lastModified: parseDate(project.date).toISOString(),
   }));
 
