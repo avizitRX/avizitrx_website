@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     url: "https://www.avizitrx.com",
     siteName: "Avizit Roy | Web & Mobile App Developer",
     images: [{ url: "https://www.avizitrx.com/Link_Share_Thumbnail.png" }],
+    type: "website",
   },
 };
 
