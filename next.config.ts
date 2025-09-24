@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'",
+              "default-src 'self'; script-src 'self' 'unsafe-inline' https://ajax.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'",
           },
           {
             key: "X-Frame-Options",
