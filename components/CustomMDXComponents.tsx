@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
+import CodeBlock from "./CodeBlock";
 
 // Custom Image component to support captions
 const CustomImage = ({
@@ -94,7 +95,12 @@ export const CustomMDXComponents = {
     </h2>
   ),
   p: ({ children }: { children: ReactNode }) => (
-    <p className="text-xl text-gray-700 dark:text-gray-300 my-5">{children}</p>
+    <p
+      className="text-gray-700 dark:text-gray-300 my-5"
+      style={{ fontSize: "1.1rem" }}
+    >
+      {children}
+    </p>
   ),
   img: CustomImage,
   a: CustomLink,
@@ -104,15 +110,9 @@ export const CustomMDXComponents = {
     </blockquote>
   ),
   pre: ({ children }: { children: ReactNode }) => (
-    <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto my-4">
-      {children}
-    </pre>
+    <pre className="overflow-x-auto">{children}</pre>
   ),
-  code: ({ children }: { children: ReactNode }) => (
-    <code className="text-neutral-800 dark:text-neutral-300 px-1 py-0.5 rounded">
-      {children}
-    </code>
-  ),
+  code: (props: any) => <CodeBlock {...props} />,
   hr: () => (
     <hr className="border-t border-gray-300 dark:border-gray-600 my-8" />
   ),
