@@ -85,12 +85,15 @@ export const CustomMDXComponents = {
     </h1>
   ),
   h2: ({ children }: { children: ReactNode }) => (
-    <h2 className="text-4xl font-semibold text-gray-800 dark:text-gray-300 mt-8 mb-5">
-      {children}
-    </h2>
+    <div className="mt-8 mb-5">
+      <h2 className="text-2xl md:text-4xl font-semibold text-gray-800 dark:text-gray-300">
+        {children}
+      </h2>
+      <div className="h-[1px] w-full bg-gray-400 dark:bg-gray-600 mt-2 opacity-40 rounded"></div>
+    </div>
   ),
   h3: ({ children }: { children: ReactNode }) => (
-    <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-300 mt-6 mb-5">
+    <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-300 mt-6 mb-5">
       {children}
     </h2>
   ),
@@ -118,7 +121,7 @@ export const CustomMDXComponents = {
   ),
   ul: ({ children }: { children: ReactNode }) => (
     <ul
-      className="list-disc list-outside pl-5 space-y-2 text-justify text-gray-700 dark:text-gray-300 mx-8 my-5"
+      className="list-disc list-outside md:pl-5 space-y-2 text-justify text-gray-700 dark:text-gray-300 mx-8 my-5"
       style={{ fontSize: "1.1rem" }}
     >
       {children}
@@ -126,7 +129,7 @@ export const CustomMDXComponents = {
   ),
   ol: ({ children }: { children: ReactNode }) => (
     <ol
-      className="list-decimal list-outside pl-5 space-y-2 text-justify text-gray-700 dark:text-gray-300 mx-8 my-5"
+      className="list-decimal list-outside md:pl-5 space-y-2 text-justify text-gray-700 dark:text-gray-300 mx-8 my-5"
       style={{ fontSize: "1.1rem" }}
     >
       {children}
