@@ -117,12 +117,18 @@ export const CustomMDXComponents = {
     <hr className="border-t border-gray-300 dark:border-gray-600 my-8" />
   ),
   ul: ({ children }: { children: ReactNode }) => (
-    <ul className="list-disc list-outside pl-5 space-y-2 text-xl text-justify text-gray-700 dark:text-gray-300 mx-8 my-5">
+    <ul
+      className="list-disc list-outside pl-5 space-y-2 text-justify text-gray-700 dark:text-gray-300 mx-8 my-5"
+      style={{ fontSize: "1.1rem" }}
+    >
       {children}
     </ul>
   ),
   ol: ({ children }: { children: ReactNode }) => (
-    <ol className="list-decimal list-outside pl-5 space-y-2 text-xl text-justify text-gray-700 dark:text-gray-300 mx-8 my-5">
+    <ol
+      className="list-decimal list-outside pl-5 space-y-2 text-justify text-gray-700 dark:text-gray-300 mx-8 my-5"
+      style={{ fontSize: "1.1rem" }}
+    >
       {children}
     </ol>
   ),
