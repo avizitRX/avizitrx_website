@@ -37,9 +37,6 @@ module.exports = {
           to: { transform: "translateY(calc(-100% - var(--gap)))" },
         },
       },
-      fontSize: {
-        base: "1.1rem",
-      },
     },
   },
   plugins: [
