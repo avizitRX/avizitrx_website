@@ -1,0 +1,287 @@
+---
+title: "A Developer’s Journey: Building a Feature-Rich Social Media App in Flutter"
+description: "This project showcases clean architecture, responsive UI, clean code and advanced Flutter techniques for building scalable apps."
+date: "11/10/2025"
+category: "mobile-development"
+tags: ["mobile-development", "flutter-social-media", "case-study"]
+image: "/blogs/mobile-development/a-developers-journey-building-a-feature-rich-social-media-app-in-flutter/Flutter Social Media - Thumbnail.jpg"
+slug: "a-developers-journey-building-a-feature-rich-social-media-app-in-flutter"
+---
+
+I’ve always wanted to learn Flutter and Bloc state management properly. I had some basic understanding of them, but I believe the best way to truly learn something is by building a real project. That’s why I decided to create a social media app for Android and iOS using Flutter. This project uses Bloc for state management and Domain-Driven Design (DDD) architecture. Through this project, I was able to gain a deeper understanding of DDD, Bloc and best practices in Flutter development. Developing this app not only expanded my knowledge but also helped me grow significantly as a developer.
+
+## Features Overview
+
+![Post Feed and Create Post Screens](/blogs/mobile-development/a-developers-journey-building-a-feature-rich-social-media-app-in-flutter/Flutter Social Media - Demo 1.png)
+
+This project is a feature-rich social media app built for Android and iOS using Flutter. It was designed to have the core functionalities of a modern social platform, including user authentication, profile management, post creation, media sharing and real-time interactions.
+
+- **Authentication:** Sign up, sign in, password recovery and secure user sessions using Firebase Auth.
+- **User Profiles:** Two profile pictures per user. One avatar from a set of fixed images and one user-uploaded photo, with privacy controls. Users have the ability to edit personal information.
+- **Posts & Feed:** Create posts with text, images or videos. They can share podcasts or music, and post story with duration and privacy settings. Users can upvote or downvote posts like Reddit. It has a feature-rich comment system using text, GIFs or stickers. Sharing other users’ post is also possible.
+- **Friend System:** Send friend requests and connect with other users.
+- **Media Handling:** Upload and edit images and videos, with a video editor and audio player for rich media content.
+- **Real-Time Communication:** One-on-one audio calls and chat, with read receipts, powered by WebRTC.
+- **Notifications:** Real-time notifications for likes, comments, messages and friend requests.
+- **Routing & Deep Linking:** Clean navigation and deep linking to posts.
+- **Responsive UI:** Adaptive layouts across phones and tablets.
+- **State Management:** Predictable and maintainable state handling using Bloc/Cubits combined with Freezed for code generation.
+- **Caching & Local Storage:** Efficient caching for posts, images, user data and settings.
+- **Security & Data Protection:** Preliminary measures with Firebase security, with plans for secure storage and SSL pinning.
+
+## Project Overview
+
+Following a proper architecture is important for a scalable and maintainable code. That’s why I structured this app using DDD. For managing the states, Bloc has been used, while GetIt handles dependency injection across the app. Firebase has been used for backend, authentication, data storage and real-time updates.
+
+To reduce the network dependency and optimize the network requests, various caching strategies has been implemented. For local storage, I used Hive and Dio for efficient API handling. The app also supports deep linking using app_links package, allowing users to share posts or profiles directly.
+
+Multimedia features are a key part of the app:
+
+- Image and video compression before upload to optimize network usage
+- A powerful in-app video editor
+- Audio playback and sharing
+- GIFs and stickers from the Tenor API for expressive interactions
+- Cached network image for optimized network usage and faster image loading
+- Chat feature for real-time interaction
+
+For UI and user experience, flutter_screenutil ensures responsive design across devices, and upgrader package handles forced updates to keep users on the latest version.
+
+This project was more than just an app. It was a deep dive into applying clean code, state management, dependency injection, caching and real-time interaction handling in a real-world Flutter environment. Every technical choice aimed to balance performance, scalability and developer experience.
+
+## Why Domain-Driven Design (DDD)
+
+I chose Domain-Driven Design (DDD) for this project because I wanted a clear separation of concerns that scales well as features grow in complexity. DDD allows you to organize the project around business domains rather than just features or UI screens, which makes the codebase more maintainable and testable.
+
+The app is divided into several layers:
+
+- **Domain Layer:** Contains the core business logic and entities (e.g., User, Post, Comment) along with use cases that define application behavior.
+- **Application Layer:** Coordinates data flow between the domain and infrastructure, including repositories and services.
+- **Infrastructure Layer:** Handles external systems like Firebase, APIs via Dio, and local storage with Hive.
+- **Presentation Layer:** Flutter UI widgets and routing logic.
+
+This separation ensures that business rules remain isolated from external dependencies, making the app easier to test, extend and refactor. It also helped me structure features like authentication, posts, media handling and real-time interactions consistently across the app.
+
+## State Management with Bloc and Freezed
+
+In this project, I used Cubits from the Bloc package for state management along with [Freezed](https://pub.dev/packages/freezed) for immutable and type-safe states. I placed all Cubits in the application layer, aligning with the DDD architecture, where the presentation layer reacts to states while the application layer handles business logic coordination.
+
+For example, the SignInCubit handles user sign-in functionality:
+
+```dart
+@freezed
+class SignInState with _$SignInState {
+const factory SignInState.initial() = _Initial;
+const factory SignInState.loading() = _Loading;
+const factory SignInState.success(User user) = _Success;
+const factory SignInState.error(String message) = _Error;
+}
+```
+
+Defining states like SignInState with `initial`, `loading`, `success` and `error` variants was simple, type-safe, error-less and required very little code.
+
+This approach provides:
+
+- Immutable states: Ensures state cannot be modified accidentally, improving predictability.
+- Type safety: Each state carries exactly the data it needs (User for success, String for error), reducing runtime errors.
+- Clean separation of concerns: The Cubit coordinates domain use cases (IAuthRepository.signin) and emits states, while the UI layer simply reacts to those states.
+- Easy testability: You can test the Cubit by triggering events and verifying emitted states without touching UI components.
+
+The SignInCubit looks like this:
+
+```dart
+class SignInCubit extends Cubit<SignInState> {
+  SignInCubit(this._authRepository) : super(SignInState.initial());
+
+  final IAuthRepository _authRepository;
+
+  Future<void> signIn({required String email, required String password}) async {
+    emit(const SignInState.loading());
+    try {
+      final user = await _authRepository.signin(email: email, password: password);
+      emit(SignInState.success(user));
+    } on FirebaseAuthException catch (e) {
+      emit(SignInState.error(e.message ?? 'Unknown Firebase error'));
+    } catch (e) {
+      emit(SignInState.error('Sign-in failed: $e'));
+    }
+  }
+}
+```
+
+By combining Cubits and Freezed, I was able to manage complex asynchronous flows in a predictable and maintainable way. The application layer handles all domain logic, while the UI layer remains simple, only reacting to the emitted states.
+
+This approach also scales well. Each feature has its own cubit and corresponding state file, keeping the code organized and consistent across the project.
+
+## Networking & API Handling with Dio
+
+In this project, I chose [Dio](https://pub.dev/packages/dio) for all network communication instead of Flutter’s default http package. Dio provides a rich set of features that make building and maintaining API-driven applications much easier, especially for a complex app like a social media platform.
+
+While the default http package is lightweight and works for basic requests, Dio offers several advantages that became crucial for this project:
+
+- **Interceptors:** Dio allows you to globally handle logging, authentication tokens, retries and error transformations.
+- **Timeouts and cancellation:** You can easily set request/connection timeouts and cancel requests when needed.
+- **Advanced response handling:** Dio supports automatic JSON decoding, FormData uploads, file downloading and streaming responses.
+- **Error handling:** Built-in support for rich error objects, including HTTP status codes, network errors and response validation.
+- **Request retries & interceptors:** Makes handling token refresh or network failures straightforward.
+
+These features made Dio ideal for handling complex operations. I created a centralized helper class for using Dio in `lib/src/core/helpers/dio_helper.dart` file. This class simplifies making API calls and keeps the codebase clean and clutter-free.
+
+## Local Data & Caching with Hive
+
+[Hive](https://pub.dev/packages/hive) is a lightweight and high-performance NoSQL database for Flutter. I considered using shared_preferences, sqflite and isar. But Hive offered the best balance of speed, simplicity and functionality.
+shared_preferences is fine for small key-value data but not suitable for caching complex objects.
+sqflite is powerful but adds unnecessary complexity with SQL queries and schema management.
+isar is fast and modern but more complex to set up.
+Hive, being pure Dart and NoSQL-based. It is lightweight, extremely fast and easy to use, making it perfect for caching posts, settings and user data in this project.
+
+I created a Hive helper class inside `lib/src/core/helpers/hive_helper.dart` to centralize all local storage operations. This keeps the data layer clean and makes caching easy to manage throughout the app.
+
+Here’s how the app handles data when it launches:
+
+1. On startup, the app checks whether it’s the user’s first time using the app to decide whether to show the onboarding screen.
+2. If the user is already logged in, it loads posts from the Hive cache, ensuring the user sees content immediately, even offline.
+3. If an internet connection is available, the app then fetches updated posts from Firebase and merges them with the cached data.
+
+## Firebase Integration
+
+For building this MVP, I chose Firebase as backend because it provides a complete set of tools for building scalable apps without managing servers. It handled everything from authentication and cloud storage to real-time data and analytics, making it ideal for this social media project.
+
+To keep the architecture clean and maintainable, I created a Firebase helper class inside `lib/src/core/helpers/firebase_helper.dart` that manages Firebase singletons and collection references. This helper serves as a central point for accessing Firebase services across the app. It also ensures consistency and avoids duplicate initialization code.
+
+All Firebase-related business operations are implemented inside feature-specific repositories in the infrastructure layer, keeping the architecture modular and aligned with DDD principles.
+
+## Media Handling
+
+Media is a core part of any social media platform. For this project, I focused on creating a smooth and efficient media experience, from uploading compressed videos to showing images seamlessly in the feed.
+
+### Image and Video Compression
+
+Uploading raw media files directly can lead to large file sizes, longer upload times, and poor user experience. To solve this, I implemented media compression before every upload. This compression step happens on the device before the upload begins, which saves bandwidth and reduces Firebase Storage usage. To compress the images, I used [flutter_image_compress](https://pub.dev/packages/flutter_image_compress) and for videos, I used [video_compress](https://pub.dev/packages/video_compress) package.
+
+### Video, Image and Audio Editing
+
+For maintaining a fixed aspect ratio for all uploaded images and videos, I implemented cropping mandatory when uploading. For cropping the images I have used image_cropper package, and for videos video_editor package. For videos, users can also trim, rotate, preview and set thumbnail.
+
+When implementing image crop feature, I got stuck with the aspect ratios set by the package. To get my desired aspect ratio, I override the fixed aspect ratios by passing this class when setting aspect ratio:
+
+```dart
+import 'package:image_cropper/image_cropper.dart';
+
+class CropAspectRatioPreset9x16 implements CropAspectRatioPresetData {
+  @override
+  String get name => '9x16';
+  @override
+  (int ratioX, int ratioY)? get data => (9, 16);
+}
+```
+
+### Audio Player Integration
+
+For audio playback, I used the [just_audio](https://pub.dev/packages/just_audio) package. It provides a reliable, feature-rich and cross-platform solution for playing audio files in Flutter. With this, users can upload and play podcasts, songs or any other audio content.
+
+### GIFs and Stickers with Tenor
+
+To make interactions more expressive, I integrated the Tenor API for GIFs and stickers. Users can search and insert GIFs directly into comments. The Tenor integration uses the same Dio client for API calls.
+
+## Realtime Communication
+
+Real-time communication is key for any social media app. In this project, I added one-on-one audio calling using WebRTC. Right now, only audio calls are supported, but the system can be extended to video later.
+
+I also implemented real-time chat, so users can send and receive messages instantly. Messages show read receipts, giving users feedback when their messages are seen. Audio streams are handled with [flutter_webrtc](https://pub.dev/packages/flutter_webrtc), while Firebase Firestore manages signaling, chat data and call setup.
+
+## Routing and Deep Linking
+
+Efficient and managable routing is important for any app. For this project, I used GoRouter instead of the default Navigator because it provides declarative routing, nested routes and built-in deep linking support. It also reduces the amount of code needed for navigation, making development easier.
+
+I centralized all app routes in `lib/src/core/router/router_config.dart`, which manages the routing app-wide. This setup allows consistent navigation across the app and ensures that routes are easy to update in the future.
+
+Deep linking was integrated using the [app_links](https://pub.dev/packages/app_links) package, enabling users to open the app directly to a specific profile, post or chat. Combined with GoRouter, it improves the overall user experience.
+
+## Responsive Design
+
+![Chat, Profile and Comment Screens](/blogs/mobile-development/a-developers-journey-building-a-feature-rich-social-media-app-in-flutter/Flutter Social Media - Demo 2.png)
+
+Initially, I focused on creating a consistent theme and used scalable units to make the UI look uniform across devices. However, I quickly realized that, this approach wasn’t enough to ensure a polished experience on all screen sizes.
+
+To address this, I integrated the [flutter_screenutil](https://pub.dev/packages/flutter_screenutil) package. With flutter_screenutil, dimensions, font sizes and spacing scale automatically based on the device’s screen size. It ensures a consistent UI on phones, tablets and various screen resolutions. I’m still in the process of updating older screens to fully adopt this system
+
+## Testing and Quality
+
+I haven’t written formal test cases for this project yet. But It is very important for maintaining a reliable and scalable app. In the future, I plan to implement rigorous unit, widget and integration tests to cover critical features. Writing tests will help catch bugs early, ensure consistent behavior and improve the overall quality.
+
+## Challenges & Solutions
+
+Building this social media app came with several challenges. Each challenge forced me to dig deeper into Flutter, packages and best practices, making me a more confident and capable developer. A few critical challenges I faced are discussed below.
+
+### Dependency Management
+
+At first, I didn’t use any dependency injection, but as the app grew, managing instances of repositories, helpers and Cubits became difficult. To optimize and simplify this, I integrated [GetIt](https://pub.dev/packages/get_it) for dependency injection. It also works very well with Bloc. This allowed me to centralize object creation, easily manage app-wide dependencies, and keep the architecture clean and scalable.
+
+### Profile Pictures and Custom Shapes
+
+One challenge was implementing two profile pictures for each user. One is an avatar from a fixed set of images and the other is a user-uploaded image. If a user sets their profile to private, others should only see the avatar.
+
+Displaying the pictures inside a custom SVG blob shape was another challenge. Initially, caching did not work with CachedNetworkImage because of the custom clipping. After digging into the source code, I learned that the package uses [flutter_cache_manager](https://pub.dev/packages/flutter_cache_manager) under the hood. So, I used flutter_cache_manager directly in this case and customized it to cache profile pictures according to my needs.
+
+### Searching in Firebase
+
+Searching in Firebase is case-sensitive. To fix this, I stored all usernames in lowercase in a separate variable. I also wrote a Dart script to populate this variable for already registered users. This solution works well, although using a custom backend would allow more flexible searches and enable searching for posts and other content.
+
+### Image Cropping
+
+Implementing image cropping had limitations with predefined aspect ratios by image_cropper package. To get a 9:16 aspect ratio, I created a custom class to override the fixed ratios:
+
+```dart
+import 'package:image_cropper/image_cropper.dart';
+
+class CropAspectRatioPreset9x16 implements CropAspectRatioPresetData {
+  @override
+  String get name => '9x16';
+  @override
+  (int ratioX, int ratioY)? get data => (9, 16);
+}
+
+```
+
+Then passing this class when setting the aspect ratio did the magic.
+
+### State Management with Bloc
+
+Managing state using Bloc was new for me and challenging. I was still learning how to handle multiple Cubits. Working through this helped me understand how to organize state in a clean and predictable way.
+
+### Notifications
+
+Notifications were not sending correctly at first. I rewrote the notification system using **enums and models** to represent different types of notifications. This made the logic more reliable and easier to maintain.
+
+## Future Improvements
+
+While the app works as an MVP, several enhancements can improve performance, security and user experience:
+
+- Display **personalized posts** in the feed based on post privacy.
+- Improve search functionality using [Algolia](https://www.algolia.com/) or a similar solution.
+- Implement **BlurHash** for images and video thumbnails for visually appealing placeholders.
+- Move **FFmpeg video conversions** to a separate **isolate** to keep the UI lag-free.
+- Add **video calling** and consider **end-to-end encryption (E2EE)** for chat and calls.
+- Extend monitoring and analytics beyond Firebase Crashlytics by integrating **Sentry** and more robust analytics.
+- Enable **force updates** using the [upgrader](https://pub.dev/packages/upgrader) package.
+- Add **spam filtering** and other user protection mechanisms.
+- Use **secure storage** for sensitive data.
+- Implement **SSL pinning** to strengthen network security.
+
+These improvements will make the app more **secure, scalable and user-friendly**, while preparing it for production-level deployment.
+
+## Conclusion
+
+It was an amazing learning experience to build this social media app. In addition to gaining practical experience with Firebase, media handling, real-time communication and responsive user interface, this project helped me better understand Flutter, Bloc state management, OOP and DDD architecture.
+
+From setting up custom profile pictures and caching to effectively managing state and media, I had a lot of obstacles to overcome. By resolving these issues, I improved my problem-solving abilities and learned how to create modular, scalable, maintainable architectures.
+
+While the app is currently an MVP, it’s a solid foundation for building more advanced social media features in the future.
+
+If you’re interested in exploring the project further, feel free to check out the full code on [GitHub](https://github.com/avizitRX/flutter_social_media). I’m always open to feedback, suggestions or collaboration. So don’t hesitate to [reach out](https://www.avizitrx.com) if you’d like to discuss ideas or contribute to improving the app.
+
+#### Credits
+
+Photo by [Carol Magalhães](https://unsplash.com/@carolexm?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/woman-in-green-tank-top-holding-smartphone-during-daytime-dSsXm15D9hg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+
+[Photo by freepik](https://www.freepik.com/free-vector/hand-painted-watercolor-abstract-watercolor-background_15441989.htm#from_element=cross_selling__vector)
