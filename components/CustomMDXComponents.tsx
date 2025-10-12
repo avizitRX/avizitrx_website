@@ -1,33 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 import CodeBlock from "./CodeBlock";
-
-// Custom Image component to support captions
-const CustomImage = ({
-  src,
-  alt,
-  title,
-}: {
-  src: string;
-  alt?: string;
-  title?: string;
-}) => {
-  return (
-    <figure className="flex flex-col items-center my-10">
-      <Image
-        src={src}
-        width={800}
-        height={450}
-        alt={alt || "Image"}
-        className="rounded-lg shadow-lg"
-      />
-      {title && (
-        <figcaption className="text-sm text-gray-500 mt-2">{title}</figcaption>
-      )}
-    </figure>
-  );
-};
+import CustomImage from "./CustomImage";
 
 // Custom Table Component
 const CustomTable = ({ children }: { children: ReactNode }) => (
@@ -105,7 +79,7 @@ export const CustomMDXComponents = {
       {children}
     </p>
   ),
-  img: CustomImage,
+  img: (props) => <CustomImage {...props} />,
   a: CustomLink,
   blockquote: ({ children }: { children: ReactNode }) => (
     <blockquote className="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-600 dark:text-gray-400 my-6">
@@ -115,7 +89,7 @@ export const CustomMDXComponents = {
   pre: ({ children }: { children: ReactNode }) => (
     <pre className="overflow-x-auto">{children}</pre>
   ),
-  code: (props: any) => <CodeBlock {...props} />,
+  code: (props) => <CodeBlock {...props} />,
   hr: () => (
     <hr className="border-t border-gray-300 dark:border-gray-600 my-8" />
   ),
