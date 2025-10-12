@@ -2,11 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-// import { Button } from "@/components/ui/button";
-// import { Menu, Sun, Moon } from "lucide-react";
 import { Menu } from "lucide-react";
-// import { useTheme } from "next-themes";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
 
@@ -25,7 +21,6 @@ const SheetTrigger = dynamic(
 
 const Navbar = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
-  // const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,125 +34,55 @@ const Navbar = () => {
   return (
     <nav
       className={clsx(
-        "fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center justify-between px-6 py-3",
-        "backdrop-blur-lg bg-white/60 dark:bg-gray-900/60 rounded-full shadow-lg",
-        "transition-all duration-300 z-50",
-        { "shadow-xl": hasScrolled }
+        "fixed flex items-center justify-between px-6 py-3 backdrop-blur-lg bg-white/60 dark:bg-gray-900/60 shadow-lg transition-all duration-300 z-50",
+        "left-1/2 top-4 transform -translate-x-1/2 rounded-full w-auto",
+        hasScrolled &&
+          "top-0 left-0 transform-none w-full rounded-none px-4 py-2 shadow-xl"
       )}
     >
-      {/* Mobile Menu with Website Name and Menu Button */}
+      {/* Mobile Menu */}
       <Sheet>
         <SheetTrigger asChild>
           <div className="flex items-center justify-between w-full md:hidden">
-            {/* Website Name on the left */}
             <span className="text-lg font-semibold text-gray-900 dark:text-white">
               avizitRX
             </span>
-
-            {/* Menu Button on the right */}
-            <button className="text-gray-900 dark:text-white ml-50">
+            <button className="text-gray-900 dark:text-white">
               <Menu size={24} aria-label="Menu" />
             </button>
           </div>
         </SheetTrigger>
         <SheetContent side="right" className="bg-white dark:bg-gray-900 p-6">
           <div className="flex flex-col space-y-4 mt-6">
-            <Link
-              href="/"
-              className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
-            >
-              Home
-            </Link>
-            <Link
-              href="/#about"
-              className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
-            >
-              About
-            </Link>
-            <Link
-              href="#services"
-              className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
-            >
-              Services
-            </Link>
-            <Link
-              href="/#portfolio"
-              className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
-            >
-              Portfolio
-            </Link>
-            <Link
-              href="/#contact"
-              className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
-            >
-              Contact
-            </Link>
-
-            {/* Theme Toggle Inside Mobile Menu */}
-            {/* <div className="flex items-center space-x-2 mt-6">
-              <button
-                className="flex items-center text-gray-900 dark:text-white"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              >
-                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-                <span className="ml-2">
-                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                </span>
-              </button>
-            </div> */}
+            {["Home", "About", "Services", "Portfolio", "Contact"].map(
+              (label) => (
+                <Link
+                  key={label}
+                  href={`/#${label.toLowerCase()}`}
+                  className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  {label}
+                </Link>
+              )
+            )}
           </div>
         </SheetContent>
       </Sheet>
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex space-x-6">
-        <Link
-          href="/"
-          className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
-        >
-          Home
-        </Link>
-        <Link
-          href="/#about"
-          className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
-        >
-          About
-        </Link>
-        <Link
-          href="/#services"
-          className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
-        >
-          Services
-        </Link>
-        <Link
-          href="/#portfolio"
-          className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
-        >
-          Portfolio
-        </Link>
-        <Link
-          href="/#blog"
-          className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
-        >
-          Blog
-        </Link>
-        <Link
-          href="/#contact-me"
-          className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
-        >
-          Contact
-        </Link>
+        {["Home", "About", "Services", "Portfolio", "Blog", "Contact"].map(
+          (label) => (
+            <Link
+              key={label}
+              href={`/#${label.toLowerCase().replace(" ", "-")}`}
+              className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
+            >
+              {label}
+            </Link>
+          )
+        )}
       </div>
-
-      {/* Theme Toggle Button (for Desktop) */}
-      {/* <Button
-        variant="ghost"
-        size="icon"
-        className="ml-4 hidden md:flex"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      >
-        {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-      </Button> */}
     </nav>
   );
 };

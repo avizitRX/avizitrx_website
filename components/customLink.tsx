@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 
-console.log(process.env.NEXT_PUBLIC_SITE_URL);
-
 const CustomLink = ({
   href,
   children,
