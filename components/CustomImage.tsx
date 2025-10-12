@@ -4,25 +4,27 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 
+interface CustomImageProps {
+  src: string;
+  alt?: string;
+  title?: string;
+  width?: number;
+  height?: number;
+}
+
 export default function CustomImage({
   src,
   alt,
   title,
-}: {
-  src: string;
-  alt?: string;
-  title?: string;
-}) {
+  width = 800,
+  height = 450,
+}: CustomImageProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Ensure portal works only after hydration
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
   const handleOpen = () => {
-    // prevent scroll behind modal
     document.body.style.overflow = "hidden";
     setIsOpen(true);
   };
@@ -34,59 +36,61 @@ export default function CustomImage({
 
   return (
     <>
-      {/* Normal image in post */}
+      {/* Thumbnail */}
       <figure
-        className="flex flex-col items-center my-10 cursor-zoom-in relative"
         onClick={handleOpen}
+        className="flex flex-col items-center my-10 cursor-zoom-in relative"
       >
         <Image
           src={src}
-          width={800}
-          height={450}
           alt={alt || "Image"}
-          className="rounded-lg shadow-md transition-transform duration-300 hover:scale-[1.02]"
+          width={width}
+          height={height}
+          className="rounded-lg shadow-md transition-transform duration-300 hover:scale-[1.03]"
         />
         {title && (
-          <figcaption className="text-sm text-gray-500 mt-2">
+          <figcaption className="text-sm text-gray-500 mt-2 text-center px-4">
             {title}
           </figcaption>
         )}
       </figure>
 
-      {/* Modal Lightbox */}
+      {/* Lightbox */}
       {mounted &&
         isOpen &&
         createPortal(
           <div
-            className="fixed inset-0 z-[99999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn"
             onClick={handleClose}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm animate-fadeIn px-4 sm:px-8"
           >
             <div
-              className="relative w-full flex justify-center max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
+              className="relative flex flex-col items-center max-h-[90vh]"
             >
+              {/* Close Button */}
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 text-gray-300 bg-black/40 rounded-full px-3 py-1 text-lg hover:bg-black/60 active:scale-95 transition"
+                className="absolute -top-10 sm:-top-12 right-0 text-gray-300 hover:text-white bg-black/40 hover:bg-black/60 rounded-full px-3 py-1 text-sm transition"
               >
                 ✕
               </button>
 
+              {/* Full Image */}
               <Image
                 src={src}
                 alt={alt || "Image"}
-                width={1200}
-                height={675}
-                className="rounded-lg shadow-2xl max-h-[85vh] w-auto object-contain"
+                width={width * 1.5}
+                height={height * 1.5}
                 priority
+                className="rounded-lg shadow-2xl max-h-[85vh] w-auto object-contain"
               />
-            </div>
 
-            {title && (
-              <p className="absolute bottom-4 text-center text-gray-300 text-sm px-3">
-                {title}
-              </p>
-            )}
+              {title && (
+                <p className="mt-3 text-sm text-gray-400 text-center max-w-md">
+                  {title}
+                </p>
+              )}
+            </div>
           </div>,
           document.body
         )}
