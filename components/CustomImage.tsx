@@ -39,14 +39,14 @@ export default function CustomImage({
       {/* Thumbnail */}
       <figure
         onClick={handleOpen}
-        className="flex flex-col items-center my-10 cursor-zoom-in relative"
+        className="flex flex-col items-center my-10 cursor-pointer relative"
       >
         <Image
           src={src}
           alt={alt || "Image"}
           width={width}
           height={height}
-          className="rounded-lg shadow-md transition-transform duration-300 hover:scale-[1.03]"
+          className="rounded-lg shadow-md"
         />
         {title && (
           <figcaption className="text-sm text-gray-500 mt-2 text-center px-4">
