@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { ReactNode } from "react";
 import CodeBlock from "./CodeBlock";
 import CustomImage from "./CustomImage";
+import CustomLink from "./customLink";
 
 // Custom Table Component
 const CustomTable = ({ children }: { children: ReactNode }) => (
@@ -28,29 +28,6 @@ const CustomTableData = ({ children }: { children: ReactNode }) => (
     {children}
   </td>
 );
-
-// Custom Link Component
-const CustomLink = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: ReactNode;
-}) => {
-  const isExternal =
-    !href.startsWith("/") &&
-    !href.startsWith(process.env.NEXT_PUBLIC_SITE_URL || "");
-
-  return (
-    <Link
-      href={href}
-      className="text-blue-500 hover:text-blue-700 transition-colors"
-      {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-    >
-      {children}
-    </Link>
-  );
-};
 
 export const CustomMDXComponents = {
   h1: ({ children }: { children: ReactNode }) => (
