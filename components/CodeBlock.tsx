@@ -43,7 +43,8 @@ export default function CodeBlock({ className, children }: CodeBlockProps) {
       {/* Copy button */}
       <button
         onClick={handleCopy}
-        className="absolute top-2 right-3 z-10 flex items-center gap-1 bg-gray-700 text-gray-100 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition"
+        className="absolute top-2 right-3 z-10 flex items-center gap-1 bg-gray-700 text-gray-100
+        text-xs px-2 py-1 rounded opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition"
       >
         <Copy size={14} />
         {copied ? "Copied!" : "Copy"}

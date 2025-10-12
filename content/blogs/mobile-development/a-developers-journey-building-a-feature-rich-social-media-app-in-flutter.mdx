@@ -18,7 +18,7 @@ This project is a feature-rich social media app built for Android and iOS using 
 
 - **Authentication:** Sign up, sign in, password recovery and secure user sessions using Firebase Auth.
 - **User Profiles:** Two profile pictures per user. One avatar from a set of fixed images and one user-uploaded photo, with privacy controls. Users have the ability to edit personal information.
-- **Posts & Feed:** Create posts with text, images or videos. They can share podcasts or music, and post story with duration and privacy settings. Users can upvote or downvote posts like Reddit. It has a feature-rich comment system using text, GIFs or stickers. Sharing other users’ post is also possible.
+- **Posts & Feed:** Create posts with text, images or videos. They can share podcasts or music and post story with duration and privacy settings. Users can upvote or downvote posts like Reddit. It has a feature-rich comment system using text, GIFs or stickers. Sharing other users’ post is also possible.
 - **Friend System:** Send friend requests and connect with other users.
 - **Media Handling:** Upload and edit images and videos, with a video editor and audio player for rich media content.
 - **Real-Time Communication:** One-on-one audio calls and chat, with read receipts, powered by WebRTC.
@@ -44,7 +44,7 @@ Multimedia features are a key part of the app:
 - Cached network image for optimized network usage and faster image loading
 - Chat feature for real-time interaction
 
-For UI and user experience, flutter_screenutil ensures responsive design across devices, and upgrader package handles forced updates to keep users on the latest version.
+For UI and user experience, flutter_screenutil ensures responsive design across devices and upgrader package handles forced updates to keep users on the latest version.
 
 This project was more than just an app. It was a deep dive into applying clean code, state management, dependency injection, caching and real-time interaction handling in a real-world Flutter environment. Every technical choice aimed to balance performance, scalability and developer experience.
 
@@ -56,7 +56,7 @@ The app is divided into several layers:
 
 - **Domain Layer:** Contains the core business logic and entities (e.g., User, Post, Comment) along with use cases that define application behavior.
 - **Application Layer:** Coordinates data flow between the domain and infrastructure, including repositories and services.
-- **Infrastructure Layer:** Handles external systems like Firebase, APIs via Dio, and local storage with Hive.
+- **Infrastructure Layer:** Handles external systems like Firebase, APIs via Dio and local storage with Hive.
 - **Presentation Layer:** Flutter UI widgets and routing logic.
 
 This separation ensures that business rules remain isolated from external dependencies, making the app easier to test, extend and refactor. It also helped me structure features like authentication, posts, media handling and real-time interactions consistently across the app.
@@ -156,24 +156,11 @@ Media is a core part of any social media platform. For this project, I focused o
 
 ### Image and Video Compression
 
-Uploading raw media files directly can lead to large file sizes, longer upload times, and poor user experience. To solve this, I implemented media compression before every upload. This compression step happens on the device before the upload begins, which saves bandwidth and reduces Firebase Storage usage. To compress the images, I used [flutter_image_compress](https://pub.dev/packages/flutter_image_compress) and for videos, I used [video_compress](https://pub.dev/packages/video_compress) package.
+Uploading raw media files directly can lead to large file sizes, longer upload times and poor user experience. To solve this, I implemented media compression before every upload. This compression step happens on the device before the upload begins, which saves bandwidth and reduces Firebase Storage usage. To compress the images, I used [flutter_image_compress](https://pub.dev/packages/flutter_image_compress) and for videos, I used [video_compress](https://pub.dev/packages/video_compress) package.
 
 ### Video, Image and Audio Editing
 
-For maintaining a fixed aspect ratio for all uploaded images and videos, I implemented cropping mandatory when uploading. For cropping the images I have used image_cropper package, and for videos video_editor package. For videos, users can also trim, rotate, preview and set thumbnail.
-
-When implementing image crop feature, I got stuck with the aspect ratios set by the package. To get my desired aspect ratio, I override the fixed aspect ratios by passing this class when setting aspect ratio:
-
-```dart
-import 'package:image_cropper/image_cropper.dart';
-
-class CropAspectRatioPreset9x16 implements CropAspectRatioPresetData {
-  @override
-  String get name => '9x16';
-  @override
-  (int ratioX, int ratioY)? get data => (9, 16);
-}
-```
+For maintaining a fixed aspect ratio for all uploaded images and videos, I implemented cropping mandatory when uploading. For cropping the images I have used image_cropper package and for videos video_editor package. Users can also trim, rotate, preview and set thumbnail.
 
 ### Audio Player Integration
 
@@ -215,7 +202,7 @@ Building this social media app came with several challenges. Each challenge forc
 
 ### Dependency Management
 
-At first, I didn’t use any dependency injection, but as the app grew, managing instances of repositories, helpers and Cubits became difficult. To optimize and simplify this, I integrated [GetIt](https://pub.dev/packages/get_it) for dependency injection. It also works very well with Bloc. This allowed me to centralize object creation, easily manage app-wide dependencies, and keep the architecture clean and scalable.
+At first, I didn’t use any dependency injection, but as the app grew, managing instances of repositories, helpers and Cubits became difficult. To optimize and simplify this, I integrated [GetIt](https://pub.dev/packages/get_it) for dependency injection. It also works very well with Bloc. This allowed me to centralize object creation, easily manage app-wide dependencies and keep the architecture clean and scalable.
 
 ### Profile Pictures and Custom Shapes
 
