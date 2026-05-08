@@ -144,10 +144,12 @@ export function TimelineSection() {
               </BlurFade>
             </h1>
 
-            <p className="text-white text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">
-              Designing, building and breaking things since 2010. A journey from
-              first mouse-clicks to hacking with AI.
-            </p>
+            <BlurFade delay={0.5} inView>
+              <p className="text-white text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">
+                Designing, building and breaking things since 2010. A journey
+                from first mouse-clicks to hacking with AI.
+              </p>
+            </BlurFade>
           </motion.div>
 
           <motion.div
@@ -187,13 +189,11 @@ export function TimelineSection() {
 
       <div className="relative py-16 mt-10">
         <div className="max-w-4xl mx-auto px-6 text-center">
+          <BlurFade delay={0.25} inView>
           <h2 className="text-3xl md:text-5xl font-display font-medium mb-8">
-            The Journey Continues.
+            The Journey Continues...
           </h2>
-          <p className="text-white mb-12">
-            Currently focused on Machine Learning research and building software
-            that bridges the physical and digital worlds.
-          </p>
+          </BlurFade>
 
           {/* <div className="mt-24 grid grid-cols-2 md:grid-cols-3 gap-8 opacity-40 grayscale hover:grayscale-0 transition-all">
             <div className="flex flex-col items-center gap-2">
