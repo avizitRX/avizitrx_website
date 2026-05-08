@@ -6,7 +6,6 @@ import {
   Cpu,
   Globe,
   Lock,
-  Monitor,
   Brain,
   GraduationCap,
   Terminal,
@@ -17,10 +16,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { useRef } from "react";
-import {
-  TIMELINE_DATA,
-  TimelineItem,
-} from "../content/timeline/timeline_constant";
+import { TIMELINE_DATA, TimelineItem } from "../lib/data/timeline_constant";
 import { BlurFade } from "./magicui/blur-fade";
 import { AuroraText } from "./magicui/aurora-text";
 
@@ -51,44 +47,40 @@ function TimelineCard({ item, index }: { item: TimelineItem; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, delay: 0.1 }}
-      className={`relative flex items-center justify-between md:mb-24 mb-16 w-full ${
+      className={`relative flex items-center justify-between md:mb-16 mb-16 w-full ${
         isEven ? "md:flex-row-reverse" : "md:flex-row"
       }`}
-      id={`milestone-${item.year}`}
     >
-      {/* Connector Dot */}
-      <div className="absolute left-[20px] md:left-1/2 top-0 md:top-1/2 -mt-2 -ml-2 md:-mt-3 md:-ml-3 z-10 w-4 h-4 md:w-6 md:h-6 rounded-full bg-bg border-4 border-accent shadow-[0_0_15px_rgba(59,130,246,0.5)] flex items-center justify-center">
+      <div className="absolute left-[20px] md:left-1/2 top-0 md:top-1/2 -mt-2 -ml-2 md:-mt-3 md:-ml-3 z-10 w-4 h-4 md:w-6 md:h-6 rounded-full bg-[#0A0A0A] border-4 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] flex items-center justify-center">
         <motion.div
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-          className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-accent"
+          className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-blue-500"
         />
       </div>
 
-      {/* Content Side */}
       <div className="md:w-[45%] w-full pl-12 md:pl-0">
         <motion.div
           whileHover={{ y: -5 }}
-          className={`p-6 md:p-8 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-colors group relative overflow-hidden`}
+          className="p-6 md:p-8 rounded-2xl bg-[#141414] border border-[#262626] hover:border-blue-500/40 transition-colors group relative overflow-hidden text-left"
         >
-          {/* Subtle Year Background */}
-          <div className="absolute -right-4 -top-8 text-8xl font-display font-bold opacity-[0.03] pointer-events-none group-hover:opacity-[0.06] transition-opacity">
+          <div className="absolute -right-4 -top-8 text-8xl font-bold opacity-[0.03] pointer-events-none group-hover:opacity-[0.06] transition-opacity">
             {item.year}
           </div>
 
           <div className="flex items-center gap-3 mb-4">
-            <span className="px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-mono font-medium tracking-wide flex items-center gap-2">
+            <span className="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-xs font-mono font-medium tracking-wide flex items-center gap-2">
               <CategoryIcon size={12} />
               {item.year}
             </span>
-            <div className="h-px flex-grow bg-border group-hover:bg-accent/20 transition-colors" />
+            <div className="h-px flex-grow bg-[#262626] group-hover:bg-blue-500/20 transition-colors" />
           </div>
 
-          <h3 className="text-xl md:text-2xl font-display font-medium mb-3 text-white group-hover:text-accent transition-colors">
+          <h3 className="text-xl md:text-2xl font-medium mb-3 text-white group-hover:text-blue-500 transition-colors">
             {item.title}
           </h3>
 
-          <p className="text-muted text-sm md:text-base leading-relaxed mb-6">
+          <p className="text-[#737373] text-sm md:text-base leading-relaxed mb-6">
             {item.description}
           </p>
 
@@ -98,7 +90,7 @@ function TimelineCard({ item, index }: { item: TimelineItem; index: number }) {
               return (
                 <span
                   key={tag}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-bg text-[11px] font-mono text-muted/80 border border-border group-hover:border-border/60"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#0A0A0A] text-[11px] font-mono text-[#737373]/80 border border-[#262626] group-hover:border-[#262626]/60"
                 >
                   {TagIcon && <TagIcon size={10} />}
                   {tag}
@@ -109,13 +101,12 @@ function TimelineCard({ item, index }: { item: TimelineItem; index: number }) {
         </motion.div>
       </div>
 
-      {/* Empty side for desktop alignment */}
       <div className="hidden md:block w-[45%]" />
     </motion.div>
   );
 }
 
-export default function TimelineSection() {
+export function TimelineSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -129,7 +120,7 @@ export default function TimelineSection() {
   });
 
   return (
-    <div className="min-h-screen bg-bg selection:bg-accent/30 selection:text-white overflow-x-hidden">
+    <div className="relative w-full py-20 overflow-hidden">
       {/* Background Decor */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px]" />
@@ -137,7 +128,7 @@ export default function TimelineSection() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-50 contrast-150 mix-blend-soft-light" />
       </div>
 
-      <header className="relative pt-24 pb-32 px-6 overflow-hidden">
+      <div className="relative pt-24 pb-24 px-6 overflow-hidden">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -153,7 +144,7 @@ export default function TimelineSection() {
               </BlurFade>
             </h1>
 
-            <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">
+            <p className="text-white text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">
               Designing, building and breaking things since 2010. A journey from
               first mouse-clicks to hacking with AI.
             </p>
@@ -167,51 +158,53 @@ export default function TimelineSection() {
             <ChevronDown className="mx-auto" />
           </motion.div>
         </div>
-      </header>
+      </div>
 
-      <main
-        ref={containerRef}
-        className="relative max-w-6xl mx-auto px-6 py-20"
-      >
-        {/* Timeline Central Line */}
-        <div className="absolute left-[20px] md:left-1/2 top-4 bottom-4 w-px bg-border md:-ml-[0.5px]">
-          <motion.div
-            style={{ scaleY }}
-            className="w-full h-full bg-gradient-to-b from-accent/20 via-accent to-accent/20 origin-top"
-          />
-        </div>
+      {/* Background Lighting */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="relative">
-          {TIMELINE_DATA.map((item, index) => (
-            <TimelineCard
-              key={item.year + item.title}
-              item={item}
-              index={index}
+      <div className="max-w-6xl mx-auto px-6">
+        <div ref={containerRef} className="relative">
+          {/* Central Line */}
+          <div className="absolute left-[20px] md:left-1/2 top-4 bottom-4 w-px bg-[#262626] md:-ml-[0.5px]">
+            <motion.div
+              style={{ scaleY }}
+              className="w-full h-full bg-gradient-to-b from-blue-500/20 via-blue-500 to-blue-500/20 origin-top"
             />
-          ))}
-        </div>
-      </main>
+          </div>
 
-      <footer className="relative py-32 border-t border-border mt-20">
+          <div className="relative pt-8">
+            {TIMELINE_DATA.map((item, index) => (
+              <TimelineCard
+                key={item.year + item.title}
+                item={item}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="relative py-16 mt-10">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-5xl font-display font-medium mb-8">
             The Journey Continues.
           </h2>
-          <p className="text-muted mb-12">
+          <p className="text-white mb-12">
             Currently focused on Machine Learning research and building software
             that bridges the physical and digital worlds.
           </p>
 
-          <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-40 grayscale hover:grayscale-0 transition-all">
+          {/* <div className="mt-24 grid grid-cols-2 md:grid-cols-3 gap-8 opacity-40 grayscale hover:grayscale-0 transition-all">
             <div className="flex flex-col items-center gap-2">
-              <span className="text-3xl font-display font-bold">15+</span>
-              <span className="text-[10px] font-mono tracking-widest uppercase">
+              <span className="text-6xl font-display font-bold">15+</span>
+              <span className="text-[14px] font-mono tracking-widest uppercase">
                 Years Experience
               </span>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <span className="text-3xl font-display font-bold">∞</span>
-              <span className="text-[10px] font-mono tracking-widest uppercase">
+              <span className="text-6xl font-display font-bold">∞</span>
+              <span className="text-[14px] font-mono tracking-widest uppercase">
                 Projects Built
               </span>
             </div>
@@ -220,16 +213,16 @@ export default function TimelineSection() {
               <span className="text-[10px] font-mono tracking-widest uppercase">
                 Primary OS
               </span>
-            </div> */}
+            </div> 
             <div className="flex flex-col items-center gap-2">
-              <span className="text-3xl font-display font-bold">∞</span>
-              <span className="text-[10px] font-mono tracking-widest uppercase">
+              <span className="text-6xl font-display font-bold">∞</span>
+              <span className="text-[14px] font-mono tracking-widest uppercase">
                 Lines of Code
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
-      </footer>
+      </div>
     </div>
   );
 }

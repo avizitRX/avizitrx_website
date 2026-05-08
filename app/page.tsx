@@ -9,7 +9,7 @@ import NextLevelSection from "@/components/NextLevelSection";
 import PortfolioSection from "@/components/PortfolioSection";
 // import ServicesSection from "@/components/ServicesSection";
 import { TestimonialSection } from "@/components/TestimonialSection";
-import TimelineSection from "@/components/TimelineSection";
+import { TimelineSection } from "@/components/TimelineSection";
 
 export default function Home() {
   return (
