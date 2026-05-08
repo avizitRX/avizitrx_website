@@ -31,7 +31,7 @@ const AboutSection = () => {
           {/* Column 1 */}
           <div className="basis-0.5 flex-auto content-center align-middle z-40">
             <BlurFade delay={0.25 * 2} inView>
-              <p className="text-base lg:text-xl text-justify">
+              <div className="text-base lg:text-xl text-justify">
                 I&apos;m a computer engineer with a passion for creating digital
                 products that are both beautiful and functional. Whether
                 it&apos;s{" "}
@@ -48,7 +48,7 @@ const AboutSection = () => {
                 Tensorflow for AI and machine learning. On top of that, I know
                 how to make websites rank higher with SEO and get more traffic
                 with digital marketing.
-              </p>
+              </div>
             </BlurFade>
 
             {/* Learn More Button */}
