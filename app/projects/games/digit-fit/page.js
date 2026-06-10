@@ -273,7 +273,8 @@ export default function DigitFitPage() {
     // --- SHARE HANDLERS ---
     const shareMsg =
       "I just solved the DigitFit Puzzle! 🧩 It's a real brain teaser. Can you fit all 10 digits?";
-    const shareUrl = window.location.href;
+    // const shareUrl = window.location.href;
+    const shareUrl = "https://www.avizitrx.com/projects/web-development/digit-fit-puzzle";
 
     window.nativeShare = () =>
       navigator.share({
