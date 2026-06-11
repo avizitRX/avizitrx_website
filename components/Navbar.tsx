@@ -42,7 +42,7 @@ const Navbar = () => {
         "fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center justify-between px-6 py-3",
         "backdrop-blur-lg bg-white/60 dark:bg-gray-900/60 rounded-full shadow-lg",
         "transition-all duration-300 z-50",
-        { "shadow-xl": hasScrolled }
+        { "shadow-xl": hasScrolled },
       )}
     >
       {/* Mobile Menu with Website Name and Menu Button */}
@@ -75,13 +75,19 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              href="/#portfolio"
+              href="/projects"
               className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
             >
               Portfolio
             </Link>
             <Link
-              href="/#contact"
+              href="/blogs"
+              className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
+            >
+              Blog
+            </Link>
+            <Link
+              href="/#contact-me"
               className="text-lg text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300"
             >
               Contact
@@ -118,13 +124,13 @@ const Navbar = () => {
           About
         </Link>
         <Link
-          href="/#portfolio"
+          href="/projects"
           className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
         >
           Portfolio
         </Link>
         <Link
-          href="/#blog"
+          href="/blogs"
           className="text-gray-900 dark:text-white text-lg font-medium hover:text-gray-600 dark:hover:text-gray-300 transition"
         >
           Blog
