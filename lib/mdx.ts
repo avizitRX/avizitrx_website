@@ -10,14 +10,15 @@ const blogsRoot = path.join(process.cwd(), "content/blogs");
 // Helper function to parse date from "dd/mm/yyyy" format
 const parseDate = (dateStr: string): Date => {
   const [day, month, year] = dateStr.split("/").map(Number);
-  return new Date(year, month - 1, day); // Month is 0-based in JS
+  return new Date(year, month - 1, day);
 };
 
-// Helper function to recursively read all MDX files from nested directories
+// Helper function to recursively read all MDX files
 async function getAllFiles(
   directory: string,
   rootDir: string,
-  category = ""
+  type: "blog" | "project",
+  category = "",
 ): Promise<Post[]> {
   const entries = fs.readdirSync(directory, { withFileTypes: true });
 
@@ -25,88 +26,103 @@ async function getAllFiles(
 
   for (const entry of entries) {
     const fullPath = path.join(directory, entry.name);
-    const subCategory = category ? `${category}/${entry.name}` : entry.name;
 
     if (entry.isDirectory()) {
-      // Recursively fetch posts from subdirectories
-      const subPosts = await getAllFiles(fullPath, rootDir, subCategory);
-      posts = [...posts, ...subPosts];
-    } else if (entry.isFile() && entry.name.endsWith(".mdx")) {
-      // Process MDX file
+      const subCategory = category ? `${category}/${entry.name}` : entry.name;
+
+      const subPosts = await getAllFiles(fullPath, rootDir, type, subCategory);
+
+      posts.push(...subPosts);
+    }
+
+    if (entry.isFile() && entry.name.endsWith(".mdx")) {
       const fileContent = await fs.promises.readFile(fullPath, "utf-8");
       const { data } = matter(fileContent);
 
       posts.push({
         ...(data as Post),
         slug: entry.name.replace(".mdx", ""),
-        category: path.relative(rootDir, directory), // Ensure correct category path
+        category,
+        type,
       });
     }
   }
 
   return posts.sort(
-    (a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime()
+    (a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime(),
   );
 }
 
-// Get all projects (from subdirectories)
+// Get all projects
 export async function getAllProjects(): Promise<Post[]> {
-  return await getAllFiles(projectsRoot, projectsRoot);
+  return getAllFiles(projectsRoot, projectsRoot, "project");
 }
 
-// Get all blogs (from subdirectories)
+// Get all blogs
 export async function getAllBlogs(): Promise<Post[]> {
-  return await getAllFiles(blogsRoot, blogsRoot);
+  return getAllFiles(blogsRoot, blogsRoot, "blog");
 }
 
 // Get a single post by slug and category
 export const getPostBySlug = async (
   rootDir: string,
   category: string,
-  slug: string
+  slug: string,
 ) => {
   const filePath = path.join(rootDir, category, `${slug}.mdx`);
 
   if (!fs.existsSync(filePath)) return null;
 
   const fileContent = await fs.promises.readFile(filePath, "utf-8");
+
   const { data: frontmatter, content } = matter(fileContent);
 
   const { title, description, date, image, tags } = frontmatter;
 
   return {
-    meta: { title, description, date, image, tags, slug, category },
+    meta: {
+      title,
+      description,
+      date,
+      image,
+      tags,
+      slug,
+      category,
+    },
     content,
   };
 };
 
-// Get metadata for all posts in a directory (recursively)
-export const getPostsMetaData = async (rootDir: string) => {
-  const posts = await getAllFiles(rootDir, rootDir);
-  return posts.map(({ slug, title, date, category }) => ({
+// Get metadata
+export const getPostsMetaData = async (
+  rootDir: string,
+  type: "blog" | "project",
+) => {
+  const posts = await getAllFiles(rootDir, rootDir, type);
+
+  return posts.map(({ slug, title, date, category, type }) => ({
     slug,
     title,
     date,
     category,
+    type,
   }));
 };
 
-// Fetch a project by slug and category
+// Project helpers
 export async function getProjectBySlug(category: string, slug: string) {
-  return await getPostBySlug(projectsRoot, category, slug);
+  return getPostBySlug(projectsRoot, category, slug);
 }
 
-// Fetch a blog by slug and category
-export async function getBlogBySlug(category: string, slug: string) {
-  return await getPostBySlug(blogsRoot, category, slug);
-}
-
-// Fetch all project metadata
 export async function getProjectMetadata() {
-  return await getPostsMetaData(projectsRoot);
+  return getPostsMetaData(projectsRoot, "project");
 }
 
-// Fetch all blog metadata
+// Blog helpers
+export async function getBlogBySlug(category: string, slug: string) {
+  return getPostBySlug(blogsRoot, category, slug);
+}
+
 export async function getBlogMetadata() {
-  return await getPostsMetaData(blogsRoot);
+  return getPostsMetaData(blogsRoot, "blog");
 }

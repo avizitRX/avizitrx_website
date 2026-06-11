@@ -52,11 +52,11 @@ const AboutSection = () => {
             </BlurFade>
 
             {/* Learn More Button */}
-            <BlurFade delay={0.25 * 2} inView className="mt-5">
+            {/* <BlurFade delay={0.25 * 2} inView className="mt-5">
               <InteractiveHoverButton className="block max-sm:m-auto">
                 Learn More
               </InteractiveHoverButton>
-            </BlurFade>
+            </BlurFade> */}
           </div>
 
           {/* Column 2 */}

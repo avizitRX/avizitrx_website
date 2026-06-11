@@ -7,6 +7,7 @@ export interface Post {
   image?: string;
   slug: string;
   content?: string;
+  type: "blog" | "project";
 }
 
 export interface BlogProps {

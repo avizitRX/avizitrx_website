@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { GlowingEffect } from "./glowing-effect";
+import { Post } from "@/lib/types";
 
-interface PostCardProps {
+interface PostCardProps extends Post {
   title: string;
   description: string;
   category: string;
@@ -30,9 +31,15 @@ const PostCard = ({
   date,
   image,
   slug,
+  type
 }: PostCardProps) => {
+  const href =
+    type === "blog"
+      ? `/blogs/${category}/${slug}`
+      : `/projects/${category}/${slug}`;
+
   return (
-    <Link href={`/blogs/${category}/${slug}`} className="block">
+    <Link href={href} className="block">
       <div className="relative h-full rounded-lg border">
         <GlowingEffect
           spread={40}
