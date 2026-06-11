@@ -1,13 +1,15 @@
 import React from "react";
 import { AuroraText } from "./magicui/aurora-text";
 import { BlurFade } from "./magicui/blur-fade";
-import { getAllBlogs } from "@/lib/mdx";
+import { getBlogs } from "@/lib/mdx";
 import { Post } from "@/lib/types";
 import PostCard from "./ui/PostCard";
 import { InteractiveHoverButton } from "./magicui/interactive-hover-button";
+import Link from "next/link";
 
 const BlogSection = async () => {
-  const posts: Post[] = await getAllBlogs();
+  // Fetch first page with 6 posts
+  const { posts } = await getBlogs(1, 6); // page = 1, pageSize = 6
 
   return (
     <section
@@ -22,9 +24,9 @@ const BlogSection = async () => {
       </h1>
 
       {/* Blogs Grid */}
-      <BlurFade delay={0.25 * 2} inView>
+      <BlurFade delay={0.5} inView>
         <div className="pt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {posts.slice(0, 6).map((post) => (
+          {posts.map((post) => (
             <PostCard key={post.slug} {...post} />
           ))}
         </div>
@@ -32,9 +34,11 @@ const BlogSection = async () => {
 
       {/* Show All Blogs Button */}
       <BlurFade delay={0.1} inView className="mt-10">
-        <InteractiveHoverButton className="block m-auto">
-          All Blogs
-        </InteractiveHoverButton>
+        <Link href="/blogs">
+          <InteractiveHoverButton className="block m-auto">
+            All Blogs
+          </InteractiveHoverButton>
+        </Link>
       </BlurFade>
     </section>
   );

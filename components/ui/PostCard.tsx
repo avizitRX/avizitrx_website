@@ -40,7 +40,7 @@ const PostCard = ({
 
   return (
     <Link href={href} className="block">
-      <div className="relative h-full rounded-lg border">
+      <div className="relative h-full rounded-lg border bg-white dark:bg-gray-900">
         <GlowingEffect
           spread={40}
           glow={true}

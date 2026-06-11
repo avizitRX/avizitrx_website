@@ -3,24 +3,35 @@ import path from "path";
 import matter from "gray-matter";
 import { Post } from "./types";
 
-// Define root directories
 const projectsRoot = path.join(process.cwd(), "content/projects");
 const blogsRoot = path.join(process.cwd(), "content/blogs");
 
-// Helper function to parse date from "dd/mm/yyyy" format
-const parseDate = (dateStr: string): Date => {
-  const [day, month, year] = dateStr.split("/").map(Number);
+const parseDate = (dateStr?: string): Date => {
+  if (!dateStr) return new Date(0);
+  const parts = dateStr.split("/").map(Number);
+  if (parts.length !== 3) return new Date(0);
+  const [day, month, year] = parts;
   return new Date(year, month - 1, day);
 };
 
-// Helper function to recursively read all MDX files
-async function getAllFiles(
+type PostType = "blog" | "project";
+
+interface PaginatedResult {
+  posts: Post[];
+  total: number;
+  totalPages: number;
+  page: number;
+  pageSize: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+async function collectPosts(
   directory: string,
-  rootDir: string,
-  type: "blog" | "project",
+  type: PostType,
   category = "",
 ): Promise<Post[]> {
-  const entries = fs.readdirSync(directory, { withFileTypes: true });
+  const entries = await fs.promises.readdir(directory, { withFileTypes: true });
 
   let posts: Post[] = [];
 
@@ -28,101 +39,119 @@ async function getAllFiles(
     const fullPath = path.join(directory, entry.name);
 
     if (entry.isDirectory()) {
-      const subCategory = category ? `${category}/${entry.name}` : entry.name;
-
-      const subPosts = await getAllFiles(fullPath, rootDir, type, subCategory);
-
+      const nextCategory = category ? `${category}/${entry.name}` : entry.name;
+      const subPosts = await collectPosts(fullPath, type, nextCategory);
       posts.push(...subPosts);
+      continue;
     }
 
-    if (entry.isFile() && entry.name.endsWith(".mdx")) {
-      const fileContent = await fs.promises.readFile(fullPath, "utf-8");
-      const { data } = matter(fileContent);
+    if (!entry.name.endsWith(".mdx")) continue;
 
-      posts.push({
-        ...(data as Post),
-        slug: entry.name.replace(".mdx", ""),
-        category,
-        type,
-      });
-    }
+    const source = await fs.promises.readFile(fullPath, "utf-8");
+    const { data } = matter(source);
+
+    if (!data.date || !data.title) continue; // Skip invalid posts
+
+    posts.push({
+      ...(data as Post),
+      slug: entry.name.replace(".mdx", ""),
+      category,
+      type,
+    });
   }
 
-  return posts.sort(
+  return posts;
+}
+
+async function getPaginatedPosts(
+  rootDir: string,
+  type: PostType,
+  page = 1,
+  pageSize = 6,
+): Promise<PaginatedResult> {
+  const posts = await collectPosts(rootDir, type);
+
+  // Sort safely
+  posts.sort(
     (a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime(),
   );
+
+  const total = posts.length;
+  const totalPages = Math.ceil(total / pageSize);
+  const start = (page - 1) * pageSize;
+  const end = start + pageSize;
+
+  return {
+    posts: posts.slice(start, end),
+    total,
+    totalPages,
+    page,
+    pageSize,
+    hasNextPage: page < totalPages,
+    hasPrevPage: page > 1,
+  };
 }
 
-// Get all projects
-export async function getAllProjects(): Promise<Post[]> {
-  return getAllFiles(projectsRoot, projectsRoot, "project");
+// Public functions
+export async function getProjects(page = 1, pageSize = 6) {
+  return getPaginatedPosts(projectsRoot, "project", page, pageSize);
 }
 
-// Get all blogs
-export async function getAllBlogs(): Promise<Post[]> {
-  return getAllFiles(blogsRoot, blogsRoot, "blog");
+// lib/mdx.ts
+export async function getBlogs(page = 1, pageSize = 6) {
+  const allPosts = await collectPosts(blogsRoot, "blog");
+
+  // sort by date descending
+  allPosts.sort((a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime());
+
+  const total = allPosts.length;
+  const totalPages = Math.ceil(total / pageSize);
+
+  // clamp page number
+  const currentPage = Math.min(Math.max(page, 1), totalPages);
+
+  const start = (currentPage - 1) * pageSize;
+  const end = start + pageSize;
+
+  const posts = allPosts.slice(start, end);
+
+  return {
+    posts,
+    total,
+    totalPages,
+    page: currentPage,
+    pageSize,
+    hasNextPage: currentPage < totalPages,
+    hasPrevPage: currentPage > 1,
+  };
 }
 
-// Get a single post by slug and category
-export const getPostBySlug = async (
+export async function getPostBySlug(
   rootDir: string,
   category: string,
   slug: string,
-) => {
+) {
   const filePath = path.join(rootDir, category, `${slug}.mdx`);
-
   if (!fs.existsSync(filePath)) return null;
 
-  const fileContent = await fs.promises.readFile(filePath, "utf-8");
-
-  const { data: frontmatter, content } = matter(fileContent);
-
-  const { title, description, date, image, tags } = frontmatter;
+  const source = await fs.promises.readFile(filePath, "utf-8");
+  const { data: frontmatter, content } = matter(source);
 
   return {
     meta: {
-      title,
-      description,
-      date,
-      image,
-      tags,
+      ...frontmatter,
       slug,
       category,
+      type: rootDir === blogsRoot ? "blog" : "project",
     },
     content,
   };
-};
+}
 
-// Get metadata
-export const getPostsMetaData = async (
-  rootDir: string,
-  type: "blog" | "project",
-) => {
-  const posts = await getAllFiles(rootDir, rootDir, type);
-
-  return posts.map(({ slug, title, date, category, type }) => ({
-    slug,
-    title,
-    date,
-    category,
-    type,
-  }));
-};
-
-// Project helpers
 export async function getProjectBySlug(category: string, slug: string) {
   return getPostBySlug(projectsRoot, category, slug);
 }
 
-export async function getProjectMetadata() {
-  return getPostsMetaData(projectsRoot, "project");
-}
-
-// Blog helpers
 export async function getBlogBySlug(category: string, slug: string) {
   return getPostBySlug(blogsRoot, category, slug);
-}
-
-export async function getBlogMetadata() {
-  return getPostsMetaData(blogsRoot, "blog");
 }
