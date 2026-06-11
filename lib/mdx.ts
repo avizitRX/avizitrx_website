@@ -132,18 +132,26 @@ export async function getPostBySlug(
   slug: string,
 ) {
   const filePath = path.join(rootDir, category, `${slug}.mdx`);
+
   if (!fs.existsSync(filePath)) return null;
 
   const source = await fs.promises.readFile(filePath, "utf-8");
   const { data: frontmatter, content } = matter(source);
 
+  // Explicitly define the meta object as a Post type
+  const meta: Post = {
+    title: frontmatter.title || "",
+    description: frontmatter.description || "",
+    date: frontmatter.date || "",
+    tags: frontmatter.tags || [],
+    image: frontmatter.image || "",
+    slug: slug,
+    category: category,
+    type: rootDir === blogsRoot ? "blog" : "project",
+  };
+
   return {
-    meta: {
-      ...frontmatter,
-      slug,
-      category,
-      type: rootDir === blogsRoot ? "blog" : "project",
-    },
+    meta,
     content,
   };
 }
@@ -154,4 +162,67 @@ export async function getProjectBySlug(category: string, slug: string) {
 
 export async function getBlogBySlug(category: string, slug: string) {
   return getPostBySlug(blogsRoot, category, slug);
+}
+
+
+
+
+// Helper function to recursively read all MDX files from nested directories
+async function getAllFiles(
+  directory: string,
+  rootDir: string,
+  category = ""
+): Promise<Post[]> {
+  const entries = fs.readdirSync(directory, { withFileTypes: true });
+
+  let posts: Post[] = [];
+
+  for (const entry of entries) {
+    const fullPath = path.join(directory, entry.name);
+    const subCategory = category ? `${category}/${entry.name}` : entry.name;
+
+    if (entry.isDirectory()) {
+      // Recursively fetch posts from subdirectories
+      const subPosts = await getAllFiles(fullPath, rootDir, subCategory);
+      posts = [...posts, ...subPosts];
+    } else if (entry.isFile() && entry.name.endsWith(".mdx")) {
+      // Process MDX file
+      const fileContent = await fs.promises.readFile(fullPath, "utf-8");
+      const { data } = matter(fileContent);
+
+      posts.push({
+        ...(data as Post),
+        slug: entry.name.replace(".mdx", ""),
+        category: path.relative(rootDir, directory), // Ensure correct category path
+      });
+    }
+  }
+
+  return posts.sort(
+    (a, b) => parseDate(b.date).getTime() - parseDate(a.date).getTime()
+  );
+}
+
+// Get metadata
+export const getPostsMetaData = async (
+  rootDir: string,
+  type: "blog" | "project",
+) => {
+  const posts = await getAllFiles(rootDir, rootDir, type);
+
+  return posts.map(({ slug, title, date, category, type }) => ({
+    slug,
+    title,
+    date,
+    category,
+    type,
+  }));
+};
+
+export async function getProjectMetadata() {
+  return getPostsMetaData(projectsRoot, "project");
+}
+
+export async function getBlogMetadata() {
+  return getPostsMetaData(blogsRoot, "blog");
 }
