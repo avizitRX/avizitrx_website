@@ -416,7 +416,7 @@ export default function DigitFitPage() {
 
         <div id="win-modal">
           <div className="modal-content">
-            <h2 style={{ marginTop: 0 }}>Puzzle Solved! 🎉</h2>
+            <h2 style={{ marginTop: 0, fontSize: "1.5rem", fontWeight: "bold" }}>Puzzle Solved! 🎉</h2>
             <p>You have a great sense of geometry. Share your victory:</p>
 
             <div className="share-grid">
