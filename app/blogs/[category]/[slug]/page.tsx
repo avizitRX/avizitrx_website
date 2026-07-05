@@ -67,7 +67,7 @@ export async function generateMetadata({
         datePublished: meta.date,
         publisher: {
           "@type": "Person",
-          name: "Avizit Roy | Web & Mobile App Developer",
+          name: "Avizit Roy | Software Engineer",
           logo: {
             "@type": "ImageObject",
             url: "https://www.avizitrx.com/avizitRX_Logo.png",

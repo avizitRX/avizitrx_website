@@ -49,7 +49,7 @@ export default function CustomImage({
           className="rounded-lg shadow-md"
         />
         {title && (
-          <figcaption className="text-sm text-gray-500 mt-2 text-center px-4">
+          <figcaption className="text-md text-gray-200 mt-2 text-center px-4">
             {title}
           </figcaption>
         )}
@@ -86,7 +86,7 @@ export default function CustomImage({
               />
 
               {title && (
-                <p className="mt-3 text-sm text-gray-400 text-center max-w-md">
+                <p className="mt-3 text-md text-gray-200 text-center max-w-md">
                   {title}
                 </p>
               )}

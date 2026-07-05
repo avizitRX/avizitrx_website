@@ -12,7 +12,7 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   title: {
-    default: "Avizit Roy | Web & Mobile App Developer",
+    default: "Avizit Roy | Software Engineer",
     template: "%s | Avizit Roy",
   },
 
@@ -22,11 +22,11 @@ export const metadata: Metadata = {
     canonical: "https://www.avizitrx.com",
   },
   openGraph: {
-    title: "Avizit Roy | Web & Mobile App Developer",
+    title: "Avizit Roy | Software Engineer",
     description:
       "Avizit Roy is a computer engineer. He is skilled in AI/ML, Web & Mobile App Development.",
     url: "https://www.avizitrx.com",
-    siteName: "Avizit Roy | Web & Mobile App Developer",
+    siteName: "Avizit Roy | Software Engineer",
     images: [{ url: "https://www.avizitrx.com/Link_Share_Thumbnail.png" }],
     type: "website",
   },
