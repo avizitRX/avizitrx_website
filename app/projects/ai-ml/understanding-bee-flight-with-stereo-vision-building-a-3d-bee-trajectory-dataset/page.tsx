@@ -1,7 +1,7 @@
-import TwoDPlot from "@/components/TwoDPlot";
 import CustomImage from "@/components/CustomImage";
 import FooterSection from "@/components/FooterSection";
 import Navbar from "@/components/Navbar";
+import TwoDPlot from "@/components/TwoDPlot";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import React, { Suspense } from "react";
@@ -271,6 +271,7 @@ const Page: React.FC = () => {
                 </p>
 
                 <TwoDPlot />
+                
                 <p
                   className="text-gray-700 dark:text-gray-300 my-5 text-center"
                   style={{ fontSize: "1.1rem" }}
