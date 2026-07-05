@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const host = process.env.NEXT_PUBLIC_HOST || "https://www.avizitrx.com";
-  const thumbnailUrl = `${host}/projects/ai-ml/understanding-bee-flight-with-stereo-vision-building-a-3d-bee-trajectory-dataset/Understanding_Bee_Flight_with_Stereo_Vision_Thumbnail.png`;
+  const thumbnailUrl = `${host}/projects/ai-ml/understanding-bee-flight-with-stereo-vision-building-a-3d-bee-trajectory-dataset/thumbnail.png`;
   const title =
     "Understanding Bee Flight with Stereo Vision: Building a 3D Bee Trajectory Dataset";
   const description =

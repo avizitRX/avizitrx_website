@@ -109,7 +109,7 @@ const Page: React.FC = () => {
             {/* Thumbnail with Caption */}
             <figure className="mb-8">
               <Image
-                src="/projects/understanding_bee_flight/Understanding_Bee_Flight _with_Stereo_Vision_Thumbnail.png"
+                src="/projects/ai-ml/understanding-bee-flight-with-stereo-vision-building-a-3d-bee-trajectory-dataset/thumbnail.png"
                 width={800}
                 height={450}
                 alt="Understanding Bee Flight with Stereo Vision: Building a 3D Bee Trajectory Dataset"
@@ -271,11 +271,13 @@ const Page: React.FC = () => {
                 </p>
 
                 <TwoDPlot />
-                
+
                 <p
                   className="text-gray-700 dark:text-gray-300 my-5 text-center"
                   style={{ fontSize: "1.1rem" }}
-                >Bees Position Frame by Frame</p>
+                >
+                  Bees Position Frame by Frame
+                </p>
 
                 <p
                   className="text-gray-700 dark:text-gray-300 my-5"
