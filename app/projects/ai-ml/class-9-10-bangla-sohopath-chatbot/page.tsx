@@ -139,16 +139,17 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
       <section className="container mx-auto pt-24 md:pt-32 pb-8 md:pb-20 px-3 sm:px-4 flex flex-col items-center">
+          <Navbar />
+
         {/* Page Title Header */}
-        <div className="text-center mb-5 md:mb-8 w-full max-w-3xl">
+        <div className="mb-5 md:mb-8">
           <BlurFade delay={0.25} inView>
-            <AuroraText className="text-lg xs:text-xl sm:text-3xl md:text-5xl font-extrabold tracking-tight block">
+            <AuroraText className="text-xl sm:text-3xl md:text-5xl font-extrabold tracking-tight block">
               ৯ম-১০ম শ্রেণীর বাংলা সহপাঠ চ্যাটবট
             </AuroraText>
           </BlurFade>
-          <p className="text-slate-400 text-xs sm:text-sm md:text-base mt-3 px-2">
+          <p className="text-slate-400 text-sm md:text-base mt-3 px-2">
             বাংলা সহপাঠ বইয়ের যেকোনো গল্প, কবিতা, নাটক, চরিত্র বা সৃজনশীল
             প্রশ্নের উত্তরের জন্য নিচের সহকারীকে প্রশ্ন করুন।
           </p>
@@ -165,10 +166,10 @@ export default function Home() {
           <div className="flex items-center justify-between gap-2 flex-wrap px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-slate-800/80 bg-slate-950/60 backdrop-blur-sm">
             <div className="flex items-center space-x-2 min-w-0">
               <span className="relative flex h-2 w-2 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-300 truncate">
+              <span className="text-base font-semibold uppercase tracking-wider text-slate-300 truncate">
                 AI সহকারী
               </span>
             </div>
@@ -176,7 +177,7 @@ export default function Home() {
               <button
                 onClick={handleClearChat}
                 aria-label="নতুন চ্যাট শুরু করুন"
-                className="shrink-0 px-2.5 py-1.5 text-[10px] sm:text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-md transition-colors border border-slate-700"
+                className="shrink-0 px-2.5 py-1.5 text-base font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 rounded-md transition-colors border border-slate-700"
               >
                 নতুন চ্যাট
               </button>
@@ -190,12 +191,8 @@ export default function Home() {
           >
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center space-y-4 px-4">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-950/50 flex items-center justify-center border border-emerald-800/80 shadow-inner">
-                  <span className="text-xl sm:text-2xl">🇧🇩</span>
-                </div>
-                <p className="text-slate-400 text-xs sm:text-sm max-w-sm leading-relaxed">
-                  প্রশ্নটি নিচে লিখুন। সম্পূর্ণ উত্তর পেতে উদ্দীপকটি সহ
-                  বিস্তারিত লিখে পাঠাতে পারেন।
+                <p className="text-slate-400 text-base sm:text-sm max-w-sm leading-relaxed">
+                  প্রশ্নটি নিচে লিখুন।
                 </p>
               </div>
             ) : (
@@ -207,14 +204,14 @@ export default function Home() {
                   <div
                     className={`max-w-[92%] xs:max-w-[90%] sm:max-w-[85%] rounded-2xl p-3 sm:p-3.5 md:p-4 shadow-md leading-relaxed wrap-break-word ${
                       msg.role === "user"
-                        ? "bg-emerald-600 text-white rounded-br-none"
+                        ? "bg-blue-500 text-white rounded-br-none"
                         : "bg-slate-800/90 text-slate-100 rounded-bl-none border border-slate-700/50"
                     }`}
                   >
-                    <div className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                    <div className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-slate-300 mb-1">
                       {msg.role === "user" ? "আপনি" : "চ্যাটবট"}
                     </div>
-                    <div className="text-xs sm:text-sm space-y-2 wrap-anywhere">
+                    <div className="text-base space-y-2 wrap-anywhere">
                       <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
@@ -226,13 +223,13 @@ export default function Home() {
                           ),
                           ul: ({ node, ...props }) => (
                             <ul
-                              className="list-disc pl-4 mb-1.5 space-y-1 text-slate-200"
+                              className="list-disc pl-4 mb-1.5 space-y-1 text-slate-300"
                               {...props}
                             />
                           ),
                           ol: ({ node, ...props }) => (
                             <ol
-                              className="list-decimal pl-4 mb-1.5 space-y-1 text-slate-200"
+                              className="list-decimal pl-4 mb-1.5 space-y-1 text-slate-300"
                               {...props}
                             />
                           ),
@@ -241,18 +238,18 @@ export default function Home() {
                           ),
                           strong: ({ node, ...props }) => (
                             <strong
-                              className="font-bold text-yellow-300"
+                              className="font-bold"
                               {...props}
                             />
                           ),
                           h3: ({ node, ...props }) => (
                             <h3
-                              className="font-bold text-emerald-400 mt-2 mb-1 text-sm sm:text-base"
+                              className="font-bold mt-2 mb-1 text-sm sm:text-base"
                               {...props}
                             />
                           ),
                           table: ({ node, ...props }) => (
-                            <div className="overflow-x-auto rounded-lg border border-slate-700/50 my-2">
+                            <div className="overflow-x-auto rounded-lg border border-slate-300 my-2">
                               <table
                                 className="w-full text-left text-[11px] sm:text-xs"
                                 {...props}
@@ -261,19 +258,19 @@ export default function Home() {
                           ),
                           th: ({ node, ...props }) => (
                             <th
-                              className="px-2 py-1 bg-slate-700/50 font-semibold border-b border-slate-600"
+                              className="px-2 py-1 bg-slate-300 font-semibold border-b border-slate-300"
                               {...props}
                             />
                           ),
                           td: ({ node, ...props }) => (
                             <td
-                              className="px-2 py-1 border-b border-slate-700/50"
+                              className="px-2 py-1 border-b border-slate-300"
                               {...props}
                             />
                           ),
                           a: ({ node, ...props }) => (
                             <a
-                              className="text-emerald-400 underline break-all"
+                              className="text-blue-500 underline break-all"
                               target="_blank"
                               rel="noopener noreferrer"
                               {...props}
@@ -327,7 +324,7 @@ export default function Home() {
             <form onSubmit={handleSubmit} className="flex items-end gap-2">
               <textarea
                 ref={textareaRef}
-                className="flex-1 min-w-0 bg-slate-900/80 border border-slate-800 rounded-xl px-3.5 py-2.5 md:py-3 text-xs sm:text-sm focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 text-white placeholder-slate-500 transition-all resize-none min-h-11 overflow-y-auto scrollbar-thin"
+                className="flex-1 min-w-0 bg-slate-900/80 border border-slate-800 rounded-xl px-3.5 py-2.5 md:py-3 text-base focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-white placeholder-slate-500 transition-all resize-none min-h-11 overflow-y-auto scrollbar-thin"
                 placeholder="আপনার প্রশ্নটি এখানে লিখুন..."
                 aria-label="আপনার প্রশ্ন লিখুন"
                 rows={1}
@@ -340,15 +337,16 @@ export default function Home() {
                 type="submit"
                 disabled={loading || !input.trim()}
                 aria-label="প্রশ্ন পাঠান"
-                className="shrink-0 px-4 md:px-6 py-2.5 md:py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl text-xs sm:text-sm disabled:bg-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed transition-all hover:shadow-lg hover:shadow-emerald-900/20 h-11 flex items-center justify-center whitespace-nowrap"
+                className="shrink-0 px-4 md:px-6 py-2.5 md:py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl text-xs sm:text-sm disabled:bg-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed transition-all hover:shadow-lg hover:shadow-emerald-900/20 h-11 flex items-center justify-center whitespace-nowrap"
               >
                 পাঠান
               </button>
             </form>
           </div>
         </div>
+
+        <FooterSection />
       </section>
-      <FooterSection />
     </>
   );
 }
