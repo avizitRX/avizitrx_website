@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import FooterSection from "@/components/FooterSection";
+import { ImageGrid } from "@/components/ImageGrid";
 
 const formatDate = (dateString: string) => {
   const [day, month, year] = dateString.split("/").map(Number);
@@ -124,7 +125,13 @@ async function ProjectContent({
 
         {/* Content */}
         <div className="text-justify">
-          <MDXRemote source={content} components={CustomMDXComponents} />
+          <MDXRemote
+            source={content}
+            components={{
+              ...CustomMDXComponents,
+              ImageGrid,
+            }}
+          />
         </div>
 
         {/* Tags Section */}
