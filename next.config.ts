@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         destination: "/projects/mobile-development/sunrise-signal",
         permanent: true,
       },
+      {
+        source: "/sunrise-signal/donate",
+        destination: "/projects/mobile-development/sunrise-signal/donate",
+        permanent: true,
+      },
     ];
   },
   transpilePackages: ["next-mdx-remote"],
